@@ -1,16 +1,9 @@
 #!/usr/bin/php
 <?php
+
 require('includes/init.php');
 
-$args = array();
-if (count($argv) < 2) {
-	show_help();
-	return false;
-} else if (count($argv) > 2) {
-  $args = array_slice($argv, 2);
-}
 
-$userCommand = $argv[1];
 $command = convertCommandToObject($userCommand);
 $command->run($args);
 

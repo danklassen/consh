@@ -8,9 +8,17 @@ define('DEBUG', true);
 
 require('functions.php');
 require('command.php');
-if(file_exists(CONSH_CONFIG)) {
-	require(CONSH_CONFIG);
+checkConfig($argv);
+
+$args = array();
+if (count($argv) < 2) {
+	show_help();
+	exit;
+} else if (count($argv) > 2) {
+  $args = array_slice($argv, 2);
 }
+$userCommand = $argv[1];
+
 require(C5_DIR.'/config/site.php');
 require('local_db.php');
 require('ssh.php');

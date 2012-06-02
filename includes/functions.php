@@ -9,6 +9,7 @@ function getInput($msg){
 function show_help() {
 	$msg =<<<EOL
 Sorry, the command you entered was not recognized. Currently implented commands are:
+config\t\tbuild the configuration file
 db:pull\t\tpull the remote database
 files:pull\tpull the files directory from the remote server
 
@@ -41,7 +42,18 @@ function debug($msg) {
 	}
 }
 
-function output($msg, $type = 'info') {
-	print $type . ' - ' . $msg."\n";
+function output($msg, $type = '') {
+	if($type != '') {
+		$type.=" - ";
+	}
+	print $type . $msg."\n";
 }
 
+function checkConfig($argv = array()) {
+	if(file_exists(CONSH_CONFIG)) {
+		require(CONSH_CONFIG);
+	} else if ((count($argv) < 2) || $argv[1] != 'config') {
+		output("Please run 'consh config' to configure consh");
+		exit;
+	}
+}
