@@ -31,10 +31,17 @@ function convertClassNameToPath($className) {
 }
 
 function __autoload($className) {
-	$path = __DIR__ . "/commands/" . convertClassNameToPath($className).".php";
+	$path = CONSH_COMMANDS_DIR . convertClassNameToPath($className).".php";
 	require($path);
 }
 
 function debug($msg) {
-	print $msg."\n";
+	if(DEBUG) {
+		print $msg."\n";
+	}
 }
+
+function output($msg, $type = 'info') {
+	print $type . ' - ' . $msg."\n";
+}
+

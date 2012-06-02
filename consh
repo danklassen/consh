@@ -1,6 +1,5 @@
 #!/usr/bin/php
 <?php
-
 require('includes/init.php');
 
 $args = array();
