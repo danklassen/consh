@@ -2,6 +2,12 @@
 
 class Config extends Command {
 
+	public function __construct() {
+    $this->name = "Config";
+    $this->description = "Create a configuration file";
+    $this->help = "";
+  }
+
 	public function run($options = array()) {
 		if (file_exists(CONSH_CONFIG)) {
 			debug("Config file already exists");

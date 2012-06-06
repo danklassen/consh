@@ -10,14 +10,12 @@ function getInput($msg, $default = ''){
 }
 
 function show_help() {
-	$msg =<<<EOL
-Sorry, the command you entered was not recognized. Currently implented commands are:
-config\t\tbuild the configuration file
-db:pull\t\tpull the remote database
-files:pull\tpull the files directory from the remote server
-
-EOL;
-	print $msg;
+	$list = new CommandList();
+  $commands = $list->getCommands();
+	output("Current Commands:");
+	foreach($commands as $command) {
+    output(str_pad($command->name, 20) . $command->description);
+  }
 }
 
 function convertCommandToObject($cmd) {
@@ -61,7 +59,8 @@ function checkConfig($argv = array()) {
 	}
 }
 
-/** from http://brian.moonspot.net/status_bar.php.txt
+/**
+  * from http://brian.moonspot.net/status_bar.php.txt
   */
 function showStatus($done, $total, $size=30) {
 
@@ -80,10 +79,10 @@ function showStatus($done, $total, $size=30) {
     $status_bar="\r[";
     $status_bar.=str_repeat("=", $bar);
     if($bar<$size){
-        $status_bar.=">";
-        $status_bar.=str_repeat(" ", $size-$bar);
+      $status_bar.=">";
+      $status_bar.=str_repeat(" ", $size-$bar);
     } else {
-        $status_bar.="=";
+       $status_bar.="=";
     }
 
     $disp=number_format($perc*100, 0);
