@@ -10,7 +10,7 @@ class FilesPull extends Command {
 
 	public function run($options) {
 		debug("Pulling remote files");
-		$to_dir = C5_DIR . "files/";
+		$to_dir = C5_DIR . "/" . "files/";
 		$output = shell_exec('rsync -avz '.REMOTE_USER.'@'.REMOTE_HOST.':~/public_html/files/ '. $to_dir);
 		debug($output);
 		debug("Done");
