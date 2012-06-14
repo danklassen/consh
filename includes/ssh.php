@@ -38,6 +38,14 @@ class SSH {
 	  if (!($stream = ssh2_exec($this->getConnection(), $cmd))) {
 	    throw new Exception('SSH command failed');
 	  }
+	  $err_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+	  stream_set_blocking($err_stream, true);
+	  $error = stream_get_contents($err_stream);
+	  if(!empty($error)) {
+	  	output($error, 'Error');
+	  	return false;
+	  }
+
 	  stream_set_blocking($stream, true);
 	  $data = "";
 	  while ($buf = fread($stream, 4096)) {
