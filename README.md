@@ -1,7 +1,8 @@
 consh
 =====
 
-*I would strongly advise not using this yet as it's no where near production ready*
+*I would strongly advise not using this yet as it's no where near production ready* At the moment this has only been tested
+on an ubuntu workstation connecting to an ubuntu server. As far as I know there isn't any reason it shouldn't work on any *nix setup though.
 
 concrete5 shell scripts
 
@@ -21,10 +22,11 @@ setup
 
 You will need php's ssh2 library installed. For ubuntu: ```sudo apt-get install libssh2-php``` Other distos may have something similiar or you can install it using PECL
 
-* ```clone``` this repo
-* ```symlink``` (I know... there should be a better way) the consh script to your bin folder (ie ~/bin/ or /usr/local/bin)
+* ```git clone``` this repo
+* ```symlink``` (I know... there should be a better way) the consh script to your bin folder (ie ~/bin/ or /usr/local/bin/)
 * ```cd``` to your local c5 install public_html folder
 * run ```consh config``` to create a config file
+* running ```consh``` will show a list of currently implemented commands
 
 that's it! You should now be able to run consh commands
 
