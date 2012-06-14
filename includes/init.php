@@ -7,6 +7,7 @@ define('CONSH_COMMANDS_DIR', CONSH_DIR."/commands/");
 define('DEBUG', true);
 
 require('functions.php');
+require('cli_colors.php');
 require('command.php');
 checkConfig($argv);
 

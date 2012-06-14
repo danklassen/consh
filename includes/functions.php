@@ -45,9 +45,16 @@ function debug($msg) {
 
 function output($msg, $type = '') {
 	if($type != '') {
-		$type.=" - ";
+    $colorCli = new CliColors();
+    if(strtolower($type) == 'error') {
+      $msg = $colorCli->getColoredString($msg, 'red');
+    } else if (strtolower($type) == 'warning') {
+      $msg = $colorCli->getColoredString($msg, 'yellow');
+    } else if (strtolower($type) == 'success') {
+      $msg = $colorCli->getColoredString($msg, 'green');
+    }
 	}
-	print $type . $msg."\n";
+	print $msg."\n";
 }
 
 function checkConfig($argv = array()) {
