@@ -5,6 +5,7 @@ define('CONSH_DIR', __DIR__."/..");
 define('CONSH_CONFIG', C5_DIR."/consh/settings.php");
 define('CONSH_COMMANDS_DIR', CONSH_DIR."/commands/");
 define('DEBUG', true);
+define('CONSH_VERSION', 0.1);
 
 require('functions.php');
 require('cli_colors.php');
