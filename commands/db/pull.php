@@ -1,16 +1,29 @@
 <?php
 /**
+ * Pulls the remote database and imports it locally
+ *
+ * This will overwrite all local data with that from the remote database!
+ *
  * @author  Dan Klassen <dan@triplei.ca>
  * @package Commands
+ * @since 0.1
  */
 class DbPull extends Command {
 
+  /**
+   * sets the name, description, and help
+   */
   public function __construct() {
     $this->name = "DB:Pull";
     $this->description = "Pull remote database";
     $this->help = "Pull and import the remote database to the local setup";
   }
 
+  /**
+   * does the magic
+   * @param  array $options not used at all
+   * @return boolean
+   */
   public function run($options) {
     $ssh = new SSH();
     output("Pulling remote database");

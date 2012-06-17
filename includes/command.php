@@ -4,6 +4,7 @@
  *
  * @author Dan Klassen <dan@triplei.ca>
  * @package Base
+ * @since  0.1
  */
 class Command {
   private $name;
@@ -31,10 +32,26 @@ class Command {
   }
 }
 
+/**
+ * helper class to list commands
+ *
+ * useful for outputting a list of all commands on the system
+ * @since  0.1
+ * @package  Base
+ */
 class CommandList {
 
+  /**
+   * populated with the various commands
+   * @var array
+   */
   private $commands;
 
+  /**
+   * loads a list of commands
+   *
+   * loops through the CONSH_COMMANDS_DIR directory recursively looking for commands to load
+   */
   public function __construct() {
     $this->commands = array();
     if ($dh = opendir(CONSH_COMMANDS_DIR)) {
@@ -49,10 +66,18 @@ class CommandList {
     }
   }
 
+  /**
+   * get an array of all the commands
+   * @return array an array of all the commands on the system
+   */
   public function getCommands() {
     return $this->commands;
   }
 
+  /**
+   * get commands in a directory
+   * @param string $dir directory to look in
+   */
   private function getDirCommands($dir) {
     if ($dh = opendir($dir)) {
       while (($file = readdir($dh)) !== false) {
@@ -65,6 +90,12 @@ class CommandList {
     }
   }
 
+  /**
+   * load a command
+   * @param  string $path path the command is in
+   * @param  string $file name of the file
+   * @return null the command is added to the list of commands
+   */
   private function loadCommand($path, $file) {
     if($file == '.' || $file == "..") {
       return;

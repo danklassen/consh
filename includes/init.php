@@ -1,7 +1,13 @@
 <?php
-define('C5_ENVIRONMENT_ONLY', true);
+/**
+ * C5_DIR directory of the concrete5 install
+ */
 define('C5_DIR', getcwd());
-define('CONSH_DIR', __DIR__."/..");
+
+/**
+ * the consh directory
+ */
+define('CONSH_DIR', __DIR__."/.."); /** the consh directory **/
 define('CONSH_CONFIG', C5_DIR."/consh/settings.php");
 define('CONSH_COMMANDS_DIR', CONSH_DIR."/commands/");
 define('DEBUG', true);

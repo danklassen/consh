@@ -1,10 +1,13 @@
 <?php
 
 /**
- * get input from the user. Displays a message and returns the user's input
+ * get input from the user.
+ *
+ * Displays a message and returns the user's input
  * @param  string $msg message to prompt the user
  * @param  string $default default value to return if the user does not enter anything
  * @return string either the user's input or the passed in default if nothing was entered
+ * @package Base
  */
 function getInput($msg, $default = ''){
   fwrite(STDOUT, "$msg: ");
@@ -17,6 +20,7 @@ function getInput($msg, $default = ''){
 
 /**
  * show a list of available commands
+ * @package Base
  * @return void
  */
 function show_help() {
@@ -31,6 +35,7 @@ function show_help() {
 /**
  * convert a command like db:pull to the object new DbPull();
  * @param  string $cmd command to load such as db:pull
+ * @package Base
  * @return Object the instantiated object for the command such as DbPull
  */
 function convertCommandToObject($cmd) {
@@ -41,6 +46,7 @@ function convertCommandToObject($cmd) {
 /**
  * convert a classname like DbPull to the full path to the file such as db/pull
  * @param  string $className name of the class to convert to a path
+ * @package Base
  * @return string path of the file relative to the commands directory
  */
 function convertClassNameToPath($className) {
@@ -53,7 +59,10 @@ function convertClassNameToPath($className) {
 }
 
 /**
- * function to load classes that haven't been defined yet. This loads from the commands/command_type/command.php
+ * function to load classes that haven't been defined yet.
+ *
+ * This loads from the commands/command_type/command.php
+ * @package Base
  * @param  string $className name of the class to load
  * @return void
  */
@@ -70,6 +79,7 @@ function __autoload($className) {
 
 /**
  * output a message if debugging is enabled
+ * @package Base
  * @param  string $msg message to display
  * @return void
  */
@@ -81,6 +91,7 @@ function debug($msg) {
 
 /**
  * output a message to the console
+ * @package Base
  * @param  string $msg  message to display
  * @param  string $type type of message (ie error, warning, success). Used for color coding the output
  * @return void
@@ -100,7 +111,10 @@ function output($msg, $type = '') {
 }
 
 /**
- * check to see if the config file exists. Otherwise output a message with instructions to create one
+ * check to see if the config file exists.
+ *
+ * Otherwise output a message with instructions to create one
+ * @package Base
  * @param  array  $argv array of options from the command line.
  * @return void
  */
@@ -114,50 +128,56 @@ function checkConfig($argv = array()) {
 }
 
 /**
-  * from http://brian.moonspot.net/status_bar.php.txt
+  * display a progress bar
+  *
+  * code is from http://brian.moonspot.net/status_bar.php.txt
+  * @package Base
+  * @param int $done amount of progress
+  * @param  int $total total amount of work to do
+  * @param  int $size size of the progress bar
   */
 function showStatus($done, $total, $size=30) {
 
-    static $start_time;
+  static $start_time;
 
-    // if we go over our bound, just ignore it
-    if($done > $total) return;
+  // if we go over our bound, just ignore it
+  if($done > $total) return;
 
-    if(empty($start_time)) $start_time=time();
-    $now = time();
+  if(empty($start_time)) $start_time=time();
+  $now = time();
 
-    $perc=(double)($done/$total);
+  $perc=(double)($done/$total);
 
-    $bar=floor($perc*$size);
+  $bar=floor($perc*$size);
 
-    $status_bar="\r[";
-    $status_bar.=str_repeat("=", $bar);
-    if($bar<$size){
-      $status_bar.=">";
-      $status_bar.=str_repeat(" ", $size-$bar);
-    } else {
-       $status_bar.="=";
-    }
+  $status_bar="\r[";
+  $status_bar.=str_repeat("=", $bar);
+  if($bar<$size){
+    $status_bar.=">";
+    $status_bar.=str_repeat(" ", $size-$bar);
+  } else {
+     $status_bar.="=";
+  }
 
-    $disp=number_format($perc*100, 0);
+  $disp=number_format($perc*100, 0);
 
-    $status_bar.="] $disp%  $done/$total";
+  $status_bar.="] $disp%  $done/$total";
 
-    $rate = ($now-$start_time)/$done;
-    $left = $total - $done;
-    $eta = round($rate * $left, 2);
+  $rate = ($now-$start_time)/$done;
+  $left = $total - $done;
+  $eta = round($rate * $left, 2);
 
-    $elapsed = $now - $start_time;
+  $elapsed = $now - $start_time;
 
-    $status_bar.= " remaining: ".number_format($eta)." sec.  elapsed: ".number_format($elapsed)." sec.";
+  $status_bar.= " remaining: ".number_format($eta)." sec.  elapsed: ".number_format($elapsed)." sec.";
 
-    echo "$status_bar  ";
+  echo "$status_bar  ";
 
-    flush();
+  flush();
 
-    // when done, send a newline
-    if($done == $total) {
-        echo "\n";
-    }
+  // when done, send a newline
+  if($done == $total) {
+      echo "\n";
+  }
 
 }

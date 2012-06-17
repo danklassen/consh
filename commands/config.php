@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * create a configuration file
+ *
+ * @author  Dan Klassen <dan@triplei.ca>
+ * @package Commands
+ * @since 0.1
+ */
 class Config extends Command {
 
 	public function __construct() {
