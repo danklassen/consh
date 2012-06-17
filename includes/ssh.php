@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * provides an interface to execute various operations on the remote server
+ * @package  Base
+ * @author  Dan Klassen <dan@triplei.ca>
+ */
 class SSH {
 	private $connection;
 	private $connected;

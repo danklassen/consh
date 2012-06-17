@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author  Dan Klassen <dan@triplei.ca>
+ * @package Commands
+ */
 class DbPush extends Command {
 
 	public function __construct() {
@@ -9,6 +12,11 @@ class DbPush extends Command {
 	}
 
 	public function run($options) {
+		$confirm = getInput("Are you sure you want to push your local database to the remote server? (y/n)");
+		if($confirm !='y') {
+			output("Bailing out");
+			return false;
+		}
 		die("not yet implemented");
 		$ssh = new SSH();
 		debug("Pulling remote database");

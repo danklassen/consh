@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * base command class
+ *
+ * @author Dan Klassen <dan@triplei.ca>
+ * @package Base
+ */
 class Command {
   private $name;
   private $description;

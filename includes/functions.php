@@ -15,6 +15,10 @@ function getInput($msg, $default = ''){
   return $varin;
 }
 
+/**
+ * show a list of available commands
+ * @return void
+ */
 function show_help() {
 	$list = new CommandList();
   $commands = $list->getCommands();

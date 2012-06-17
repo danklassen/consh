@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author  Dan Klassen <dan@triplei.ca>
+ * @package Commands
+ */
 class GitPush extends Command {
 
 	public function __construct() {
