@@ -2,31 +2,61 @@
 /**
  * base command class
  *
+ * This class should be overridden by any other classes which are commands for the system
+ * The main important function is run() which is called and passed any options from the command line
+ *
  * @author Dan Klassen <dan@triplei.ca>
  * @package Base
  * @since  0.1
  */
 class Command {
+
+  /**
+   * name of the Command
+   * @var string
+   */
   private $name;
+  /**
+   * description of the command
+   * @var string
+   */
   private $description;
+  /**
+   * a help message to be displayed
+   *
+   * at the moment this is not used at all
+   * @var string
+   */
   private $help;
 
+  /**
+   * the main magic should happen here
+   * @param  array  $options options passed in from the command line
+   */
   public function run($options = array()){
     //over ride this as it will be called
   }
 
-  public function register() {
-
-  }
-
+  /**
+   * gets the name of the command
+   * @return string the name of the command
+   */
   public function getName() {
     return $this->name;
   }
 
+  /**
+   * gets the description of the command
+   * @return string the description of the command
+   */
   public function getDescription() {
     return $this->description;
   }
 
+  /**
+   * gets the help for the command
+   * @return string the help for the command
+   */
   public function getHelp() {
     return $this->help;
   }
@@ -42,7 +72,8 @@ class Command {
 class CommandList {
 
   /**
-   * populated with the various commands
+   * populated with the various commands when instantiated
+   *
    * @var array
    */
   private $commands;

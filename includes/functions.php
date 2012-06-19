@@ -4,10 +4,11 @@
  * get input from the user.
  *
  * Displays a message and returns the user's input
+ * @package Base
+ * @since  0.1
  * @param  string $msg message to prompt the user
  * @param  string $default default value to return if the user does not enter anything
  * @return string either the user's input or the passed in default if nothing was entered
- * @package Base
  */
 function getInput($msg, $default = ''){
   fwrite(STDOUT, "$msg: ");
@@ -21,6 +22,7 @@ function getInput($msg, $default = ''){
 /**
  * show a list of available commands
  * @package Base
+ * @since  0.1
  * @return void
  */
 function show_help() {
@@ -34,8 +36,9 @@ function show_help() {
 
 /**
  * convert a command like db:pull to the object new DbPull();
- * @param  string $cmd command to load such as db:pull
  * @package Base
+ * @since  0.1
+ * @param  string $cmd command to load such as db:pull
  * @return Object the instantiated object for the command such as DbPull
  */
 function convertCommandToObject($cmd) {
@@ -45,8 +48,9 @@ function convertCommandToObject($cmd) {
 
 /**
  * convert a classname like DbPull to the full path to the file such as db/pull
- * @param  string $className name of the class to convert to a path
  * @package Base
+ * @since  0.1
+ * @param  string $className name of the class to convert to a path
  * @return string path of the file relative to the commands directory
  */
 function convertClassNameToPath($className) {
@@ -63,6 +67,7 @@ function convertClassNameToPath($className) {
  *
  * This loads from the commands/command_type/command.php
  * @package Base
+ * @since  0.1
  * @param  string $className name of the class to load
  * @return void
  */
@@ -80,6 +85,7 @@ function __autoload($className) {
 /**
  * output a message if debugging is enabled
  * @package Base
+ * @since  0.1
  * @param  string $msg message to display
  * @return void
  */
@@ -94,6 +100,7 @@ function debug($msg) {
  * @package Base
  * @param  string $msg  message to display
  * @param  string $type type of message (ie error, warning, success). Used for color coding the output
+ * @since  0.1
  * @return void
  */
 function output($msg, $type = '') {
@@ -113,9 +120,10 @@ function output($msg, $type = '') {
 /**
  * check to see if the config file exists.
  *
- * Otherwise output a message with instructions to create one
+ * If no config file is present then output a message with instructions to create one
  * @package Base
  * @param  array  $argv array of options from the command line.
+ * @since  0.1
  * @return void
  */
 function checkConfig($argv = array()) {
@@ -132,6 +140,7 @@ function checkConfig($argv = array()) {
   *
   * code is from http://brian.moonspot.net/status_bar.php.txt
   * @package Base
+  * @since  0.1
   * @param int $done amount of progress
   * @param  int $total total amount of work to do
   * @param  int $size size of the progress bar

@@ -5,13 +5,29 @@
  * @author  Dan Klassen <dan@triplei.ca>
  */
 class SSH {
+	/**
+	 * the ssh2 connection
+	 * @var resource
+	 */
 	private $connection;
+	/**
+	 * whether or not this instance is currently connected
+	 * @var boolean
+	 */
 	private $connected;
 
+	/**
+	 * the constructor
+	 *
+	 * at the moment defaults to not being connected
+	 */
 	public function __construct() {
 		$this->connected = false;
 	}
 
+	/**
+	 * connect to the remote server
+	 */
 	public function connect() {
 		if (!$this->connected) {
 			debug('connecting');
@@ -23,6 +39,12 @@ class SSH {
 		}
 	}
 
+	/**
+	 * get a connection to the remote server
+	 *
+	 * if we are already connect re-use the connection, otherwise one is established
+	 * @return mixed the connection to the remote server
+	 */
 	public function getConnection() {
 		if (!$this->connected) {
 			$this->connect();
@@ -30,7 +52,10 @@ class SSH {
 		return $this->connection;
 	}
 
-	public function close() {
+	/**
+	 * close the connection
+	 */
+	public function closeConnection() {
 		debug('closing');
 		$this->getConnection();
 		$this->runCommand('exit');

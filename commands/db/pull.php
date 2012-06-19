@@ -21,6 +21,14 @@ class DbPull extends Command {
 
   /**
    * does the magic
+   *
+   * order of operations:
+   * * create an SSH connection to the remote host
+   * * run mysql dump on remote host
+   * * scp the file locally
+   * * remove the remote file
+   * * import the file to the local database
+   * * remove the local file
    * @param  array $options not used at all
    * @return boolean
    */
