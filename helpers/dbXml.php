@@ -21,6 +21,10 @@ class columnInfo {
 
   }
 
+  /**
+   * get a simpleXML object representing this column
+   * @return SimpleXMLElement
+   */
   public function getXMLObject() {
     $field = new SimpleXMLElement("<field />");
     $field->addAttribute('name', $this->name);
@@ -32,11 +36,19 @@ class columnInfo {
     return $field;
   }
 
+  /**
+   * converts object to a string
+   * @return string 
+   */
   public function __toString() {
     $xml = $this->getXMLObject();
     return str_replace("<?xml version=\"1.0\"?>\n", "", $xml->asXML());
   }
 
+  /**
+   * add the extras array as children of the XML attribute
+   * @param SimpleXMLElement $field the field to add the extras to
+   */
   protected function addExtras($field) {
     foreach($this->extra as $key => $value) {
       $field->addChild($key, $value);
@@ -44,6 +56,20 @@ class columnInfo {
     return $field;
   }
 
+  /**
+   * set the type of field we want
+   *
+   * current options are
+   * * id => an unsigned, autoincrementing integer set as the primary key
+   * * boolean/I2 => tiny unsigned int
+   * * int/I => integer
+   * * created => current timestamp
+   * * timestamp/t => date/time field
+   * * date/d => date field
+   * * text/X2 => large text field
+   * * string/C => varchar with a size of 255
+   * @param string $type the type of field for this column
+   */
   public function setType($type) {
     $type = strtolower($type);
 
@@ -93,6 +119,11 @@ class columnInfo {
     }
   }
 
+  /**
+   * add some extra data about this field
+   * @param string $key   key
+   * @param value $value value
+   */
   public function addExtra($key, $value = null) {
     $this->extra[$key] = $value;
   }
