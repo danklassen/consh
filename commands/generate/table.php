@@ -9,6 +9,12 @@
 class GenerateTable extends Command {
 
   /**
+   * name of the table
+   * @var string
+   */
+  protected $table_name;
+
+  /**
    * sets the name, description, and help
    */
   public function __construct() {
@@ -25,13 +31,21 @@ class GenerateTable extends Command {
    */
   public function run($options) {
     $name = array_shift($options);
+    $this->table_name = $name;
     require_once(CONSH_DIR . '/helpers/dbXml.php');
     $table = new tableInfo($name);
     foreach($options as $column) {
       $columnXML = new columnInfo($column);
       $table->addColumn($columnXML);
     }
-    print $table;
-    return true;
+    return $table;
+  }
+
+  /**
+   * get the name of the table for this instance
+   * @return string
+   */
+  public function getTableName() {
+    return $this->table_name;
   }
 }
