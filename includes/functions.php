@@ -46,6 +46,12 @@ function convertCommandToObject($cmd) {
 	return new $className();
 }
 
+function camelize($str = null) {
+  $r1 = ucwords(str_replace(array('_', '-', '/'), ' ', $str));
+  $r2 = str_replace(' ', '', $r1);
+  return $r2;
+}
+
 /**
  * convert a classname like DbPull to the full path to the file such as db/pull
  * @package Base
