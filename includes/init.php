@@ -6,6 +6,8 @@
  */
 define('C5_DIR', getcwd());
 
+define('C5_CONCRETE_DIR', C5_DIR."/concrete");
+
 /**
  * the consh directory
  * @package  Base
@@ -39,7 +41,15 @@ define('DEBUG', true);
  * @package  Base
  * @since  0.1
  */
-define('CONSH_VERSION', 0.1);
+define('CONSH_VERSION', 0.2);
+
+/**
+ * allow us to include some concrete5 files
+ * @var boolean
+ * @package Base
+ */
+define('C5_EXECUTE', true);
+
 
 require('functions.php');
 require('cli_colors.php');
@@ -60,6 +70,16 @@ if (!file_exists(C5_DIR.'/config/site.php')) {
 	output("This does not look like a concrete5 install", 'error');
 	die();
 }
+
+// see if there was a passed in --pgk=package_name option passed in and set it as a variable
+// unset it from the $args array though so it doesn't get picked up by the commands themselves
+$pkg = preg_grep("/^--pkg=/", $args);
+if(!empty($pkg)) {
+  $keys = array_keys($pkg);
+  unset($args[$keys[0]]);
+  $pkg = str_replace("--pkg=", "", array_shift($pkg));
+}
+
 require(C5_DIR.'/config/site.php');
 require('local_db.php');
 require('ssh.php');
