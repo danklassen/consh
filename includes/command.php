@@ -30,6 +30,18 @@ class Command {
   private $help;
 
   /**
+   * name of the package this command is running against
+   *
+   * this is derived from the command line option --pkg=(*.)
+   * @var string
+   */
+  private $package;
+
+  public function __construct() {
+    $this->pkg = null;
+  }
+
+  /**
    * the main magic should happen here
    * @param  array  $options options passed in from the command line
    */
@@ -59,6 +71,22 @@ class Command {
    */
   public function getHelp() {
     return $this->help;
+  }
+
+  /**
+   * set the package namespace for this command
+   * @param string $pkg
+   */
+  public function setPackage($pkg=null) {
+    $this->pkg = $pkg;
+  }
+
+  /**
+   * get the package for this intance
+   * @return string
+   */
+  public function getPackage() {
+    return $this->pkg;
   }
 }
 
