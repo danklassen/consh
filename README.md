@@ -1,8 +1,7 @@
 consh
 =====
 
-*I would strongly advise not using this yet as it's no where near production ready* At the moment this has only been tested
-on an ubuntu workstation connecting to an ubuntu server. As far as I know there isn't any reason it shouldn't work on any *nix setup though.
+At the moment this has only been tested on an ubuntu workstation connecting to an ubuntu server. As far as I know there isn't any reason it shouldn't work on any *nix setup though.
 
 concrete5 shell scripts
 
@@ -29,6 +28,23 @@ You will need php's ssh2 library installed. For ubuntu: ```sudo apt-get install 
 * running ```consh``` will show a list of currently implemented commands
 
 that's it! You should now be able to run consh commands
+
+Tasks
+=====
+
+The current list of tasks avilable are:
+```
+Version             Displays the consh version
+Files:Pull          Pull remote files locally
+DB:Push             Push local database
+DB:Pull             Pull remote database
+Generate:Table      Generates a db.xml file for the passed in attributes
+Generate:Model      Generates a skeleton model
+Pull                Pull a remote database and files
+Config              Create a configuration file
+```
+
+
 
 
 
