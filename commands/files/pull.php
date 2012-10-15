@@ -26,7 +26,8 @@ class FilesPull extends Command {
 	public function run($options) {
 		debug("Pulling remote files");
 		$to_dir = C5_DIR . "/" . "files/";
-		$output = shell_exec('rsync -avz --delete '.REMOTE_USER.'@'.REMOTE_HOST.':~/public_html/files/ '. $to_dir);
+		$output = shell_exec('rsync -az --delete '.REMOTE_USER.'@'.REMOTE_HOST.':~/public_html/files/ '. $to_dir);
+		shell_exec('chmod 777 files/ files/cache');
 		debug($output);
 		debug("Done");
 		return true;
