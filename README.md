@@ -42,6 +42,7 @@ Generate:Table      Generates a db.xml file for the passed in attributes
 Generate:Model      Generates a skeleton model
 Pull                Pull a remote database and files
 Config              Create a configuration file
+Deploy              Perform a git pull on the remote server
 ```
 
 
