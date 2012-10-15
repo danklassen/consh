@@ -60,6 +60,10 @@ define('REMOTE_DB_HOST', '$remote_mysql_host');				//usually localhost... rememb
 define('REMOTE_DB_USER', '$remote_mysql_user');
 define('REMOTE_DB_PASS', '$remote_mysql_pass');
 define('REMOTE_DB_NAME', '$remote_mysql_name');
+
+// Deploy settings
+define('DEPLOY_BRANCH', 'master');
+define('DEPLOY_REMOTE', 'origin');
 EOF;
 			file_put_contents(CONSH_CONFIG, $data);
 
