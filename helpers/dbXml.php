@@ -38,7 +38,7 @@ class columnInfo {
 
   /**
    * converts object to a string
-   * @return string 
+   * @return string
    */
   public function __toString() {
     $xml = $this->getXMLObject();
@@ -92,10 +92,16 @@ class columnInfo {
         $this->type = "I";
         break;
 
+      case 'decimal':
+        $this->type = "N";
+        $this->size = 14.4;
+        break;
+
       case 'created':
         $this->addExtra('deftimestamp');
       case 't':
       case 'timestamp':
+      case 'datetime':
         $this->type = 'T';
         break;
 
