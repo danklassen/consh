@@ -11,7 +11,7 @@ class GitPush extends Command {
 		$this->help = "Push and pull code";
 	}
 
-	public function run() {
+	public function run($options = array()) {
 		output('pushing to origin master from local');
 		$output = shell_exec('git push origin master');
 		debug($output);

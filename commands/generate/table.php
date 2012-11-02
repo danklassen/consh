@@ -17,7 +17,8 @@ class GenerateTable extends Command {
   /**
    * sets the name, description, and help
    */
-  public function __construct() {
+  public function __construct()
+  {
     $this->name = "Generate:Table";
     $this->description = "Generates a db.xml file for the passed in attributes";
     $this->help = "Generate a db.xml file";
@@ -29,12 +30,13 @@ class GenerateTable extends Command {
    * @param  array $options not used at all
    * @return string
    */
-  public function run($options) {
+  public function run($options = array())
+  {
     $name = array_shift($options);
-    $this->table_name = $name;
+    $this->table_name = camelize($name);
     require_once(CONSH_DIR . '/helpers/dbXml.php');
-    $table = new tableInfo($name);
-    foreach($options as $column) {
+    $table = new tableInfo($this->getTableName());
+    foreach ($options as $column) {
       $columnXML = new columnInfo($column);
       $table->addColumn($columnXML);
     }
@@ -45,7 +47,8 @@ class GenerateTable extends Command {
    * get the name of the table for this instance
    * @return string
    */
-  public function getTableName() {
-    return $this->table_name;
+  public function getTableName()
+  {
+    return camelize($this->table_name);
   }
 }
