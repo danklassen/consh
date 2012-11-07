@@ -2,8 +2,8 @@
 /**
  * push the current code from master to the remote server
  *
- * @author    Dan Klassen <dan@triplei.ca>
  * @package Commands
+ * @author  Dan Klassen <dan@triplei.ca>
  */
 class Deploy extends Command
 {
@@ -17,12 +17,13 @@ class Deploy extends Command
 
     public function run($options = array())
     {
-        $ssh = new SSH();
-        output("pulling origin/master on remote server");
-        $ssh->runCommand('cd '.REMOTE_DOC_ROOT);
-        $console_output = $ssh->runCommand('cd '.REMOTE_DOC_ROOT.' && git pull '.DEPLOY_REMOTE.' '.DEPLOY_BRANCH);
-        output($console_output);
-        output("Done");
-        return true;
+        if (!defined('DEPLOY_STRATEGY')) {
+            define('DEPLOY_STRATEGY', 'git_pull');
+        }
+
+        require CONSH_DIR . '/helpers/deploy_strategies/' . DEPLOY_STRATEGY . '.php';
+        $deploy_class = camelize(DEPLOY_STRATEGY. '_deploy_strategy');
+        $deploy = new $deploy_class();
+        $deploy->deploy();
     }
 }

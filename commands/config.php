@@ -67,6 +67,7 @@ define('REMOTE_DB_NAME', '$remote_mysql_name');
 // Deploy settings
 define('DEPLOY_BRANCH', 'master');
 define('DEPLOY_REMOTE', 'origin');
+define('DEPLOY_STRATEGY', 'git_pull');                    // currently only git_pull. future plans for git pull & symlink like capistrano
 EOF;
             file_put_contents(CONSH_CONFIG, $data);
 
