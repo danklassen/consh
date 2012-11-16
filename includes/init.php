@@ -51,35 +51,36 @@ define('CONSH_VERSION', 0.2);
 define('C5_EXECUTE', true);
 
 
-require('functions.php');
-require('cli_colors.php');
-require('command.php');
+require 'functions.php';
+require 'cli_colors.php';
+require 'command.php';
+require CONSH_DIR.'/models/hook.php';
 checkConfig($argv);
 
 $args = array();
 if (count($argv) < 2) {
-	show_help();
-	exit;
+    show_help();
+    exit;
 } else if (count($argv) > 2) {
-  $args = array_slice($argv, 2);
+    $args = array_slice($argv, 2);
 }
 $userCommand = $argv[1];
 
 if (!file_exists(C5_DIR.'/config/site.php')) {
-	output("Please make sure the file ".C5_DIR.'/config/site.php exists', 'warning');
-	output("This does not look like a concrete5 install", 'error');
-	die();
+    output("Please make sure the file ".C5_DIR.'/config/site.php exists', 'warning');
+    output("This does not look like a concrete5 install", 'error');
+    die();
 }
 
 // see if there was a passed in --pgk=package_name option passed in and set it as a variable
 // unset it from the $args array though so it doesn't get picked up by the commands themselves
 $pkg = preg_grep("/^--pkg=/", $args);
-if(!empty($pkg)) {
-  $keys = array_keys($pkg);
-  unset($args[$keys[0]]);
-  $pkg = str_replace("--pkg=", "", array_shift($pkg));
+if (!empty($pkg)) {
+    $keys = array_keys($pkg);
+    unset($args[$keys[0]]);
+    $pkg = str_replace("--pkg=", "", array_shift($pkg));
 }
 
-require(C5_DIR.'/config/site.php');
-require('local_db.php');
-require('ssh.php');
+require C5_DIR.'/config/site.php';
+require 'local_db.php';
+require 'ssh.php';
