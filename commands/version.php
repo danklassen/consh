@@ -21,6 +21,7 @@ class Version extends Command
 
     public function run($options = array())
     {
+        Hook::fire('show_version');
         output(CONSH_VERSION);
     }
 }
