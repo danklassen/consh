@@ -40,6 +40,7 @@ class DbPull extends Command
      */
     public function run($options = array())
     {
+        Hook::fire('before_db_pull');
         $ssh = new SSH();
         output("Pulling remote database");
         $file_name = 'db_' . time() . '.sql';
@@ -73,6 +74,7 @@ class DbPull extends Command
         }
         unlink($local_file);
         output("Done", 'success');
+        Hook::fire('after_db_pull');
         return true;
     }
 }

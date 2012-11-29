@@ -24,6 +24,8 @@ class Deploy extends Command
         require CONSH_DIR . '/helpers/deploy_strategies/' . DEPLOY_STRATEGY . '.php';
         $deploy_class = camelize(DEPLOY_STRATEGY. '_deploy_strategy');
         $deploy = new $deploy_class();
+        Hook::fire('before_deploy');
         $deploy->deploy();
+        Hook::fire('after_deploy');
     }
 }
