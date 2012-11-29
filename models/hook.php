@@ -21,7 +21,7 @@ class Hook {
      * When passed an "event" as a string (e.g. "on_user_add"), a user-defined method can be run whenever this event
      * takes place.
      * <code>
-     * Events::extend('on_user_add', 'MySpecialClass', 'createSpecialUserInfo', 'models/my_special_class.php', array('foo' => 'bar'))
+     * Hook::extend('on_user_add', 'MySpecialClass', 'createSpecialUserInfo', 'models/my_special_class.php', array('foo' => 'bar'))
      * </code>
      * @param string $event
      * @param string $class
@@ -33,7 +33,6 @@ class Hook {
      */
     public static function register($event, $class, $method = '', $filename = '', $params = array(), $priority = 5)
     {
-        print "registering hook: $event\n";
         $ce = Hook::getInstance();
         $ce->registeredEvents[$event][] = array(
             $class,
@@ -52,10 +51,9 @@ class Hook {
      * @return void
      */
     public static function fire($event) {
-        print "firing {$event}\n";
 
         // any additional arguments passed to the fire function will get passed FIRST to the method, with the method's own registered
-        // params coming at the end. e.g. if I fire Events::fire('on_login', $userObject) it will come in with user object first
+        // params coming at the end. e.g. if I fire Hook::fire('on_login', $userObject) it will come in with user object first
         $args = func_get_args();
         if (count($args) > 1) {
             array_shift($args);
@@ -71,10 +69,8 @@ class Hook {
 
         $eventReturn = false;
 
-        if (is_array($events)) {
-            print "we have registered hook\n";
+        if (is_array($events) && count($events)) {
             foreach ($events as $ev) {
-                var_dump($ev);
                 $type = $ev[0];
                 if ($ev[3] != false) {
                     // HACK - second part is for windows and its paths
@@ -94,7 +90,6 @@ class Hook {
                 }
 
                 if ($ev[1] instanceof Closure) {
-                    print "we have a clorsure!\n";
                     $func = $ev[1];
                     $eventReturn = call_user_func_array($func, $params);
                 } else {
