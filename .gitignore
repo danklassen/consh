@@ -2,3 +2,11 @@ consh.sublime-project
 consh.sublime-workspace
 config/site.php
 files/cache/*
+build/
+cache/
+documentation/
+.buildpath
+.project
+.settings/
+
+vendor
