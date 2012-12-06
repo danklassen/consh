@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Consh : concrete5 shell scripts" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Consh</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/danklassen/consh">View on GitHub</a>
+
+          <h1 id="project_title">Consh</h1>
+          <h2 id="project_tagline">concrete5 shell scripts</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/danklassen/consh/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/danklassen/consh/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>consh</h1>
+
+<p>At the moment this has only been tested on an ubuntu workstation connecting to an ubuntu server. As far as I know there isn't any reason it shouldn't work on any *nix setup though.</p>
+
+<p>concrete5 shell scripts</p>
+
+<p>This is the base of a set of concrete5 scripts to ease the management of dev and live environments. At the moment the only functionality is pulling a remote database, and rsyncing the files directory.</p>
+
+<p>general syntax is similiar to rake tasks.</p>
+
+<p><code>consh db:pull</code></p>
+
+<p><code>consh files:pull</code></p>
+
+<p>Commands can be added in to the commands folder and must extend the base command object. When a user runs <code>consh fun:task</code>
+the method <code>FunTask-&gt;run()</code> will be called. FunTask should be defined in <code>commands/fun/task.php</code></p>
+
+<h1>setup</h1>
+
+<p>You will need php's ssh2 library installed. For ubuntu: <code>sudo apt-get install libssh2-php</code> Other distos may have something similiar or you can install it using PECL</p>
+
+<ul>
+<li>
+<code>git clone</code> this repo</li>
+<li>
+<code>symlink</code> (I know... there should be a better way) the consh script to your bin folder (ie ~/bin/ or /usr/local/bin/)</li>
+<li>
+<code>cd</code> to your local c5 install public_html folder</li>
+<li>run <code>consh config</code> to create a config file</li>
+<li>running <code>consh</code> will show a list of currently implemented commands</li>
+</ul><p>that's it! You should now be able to run consh commands</p>
+
+<h1>Tasks</h1>
+
+<p>The current list of tasks avilable are:</p>
+
+<pre><code>Version             Displays the consh version
+Files:Pull          Pull remote files locally
+DB:Push             Push local database
+DB:Pull             Pull remote database
+Generate:Table      Generates a db.xml file for the passed in attributes
+Generate:Model      Generates a skeleton model
+Pull                Pull a remote database and files
+Config              Create a configuration file
+Deploy              Perform a git pull on the remote server
+</code></pre>
+
+<h1>Hooks</h1>
+
+<p>Hooks can be fired after key points of the execution. I was needing a way to pull files from a separate file location on the server into the main files folder and update the file storage location in the database for one project.</p>
+
+<p>Hooks should either be a Closure or in a file which resides in /consh/hook/hook_class_name.php</p>
+
+<p>A simple hook may look something like the following</p>
+
+<pre><code>&lt;?php
+//filename: /home/user/workspace/project_name/consh/hook/pull.php
+class HookPull
+{
+    // sync files &amp; then update the database to use a file location which works locally
+    public static function post_pull()
+    {
+        $to_dir = C5_DIR . "/" . "files/";
+        $output = shell_exec('rsync -az '.REMOTE_USER.'@'.REMOTE_HOST.':~/secure_files/ '. $to_dir);
+        shell_exec('chmod 777 files/');
+        $db = new LocalDB();
+        $res = $db-&gt;execute('Update FileStorageLocations set fslDirectory="/home/user/workspace/project_name/files"');
+        output("Sync of secure files and update of storage location complete", 'success');
+    }
+}
+</code></pre>
+
+<p>In the consh settings file add something like</p>
+
+<pre><code>Hook::register('after_pull', null, 'HookPull', 'post_pull');
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Consh maintained by <a href="https://github.com/danklassen">danklassen</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
