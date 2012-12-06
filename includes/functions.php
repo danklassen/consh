@@ -78,7 +78,11 @@ function convertClassNameToPath($className) {
  * @return void
  */
 function __autoload($className) {
-	$path = CONSH_COMMANDS_DIR . convertClassNameToPath($className).".php";
+  if (substr($className, 0, 4) == 'Hook') {
+    $path = C5_DIR . "/consh/".convertClassNameToPath($className) . ".php";
+  } else {
+	  $path = CONSH_COMMANDS_DIR . convertClassNameToPath($className).".php";
+  }
   if (file_exists($path)) {
 	 require($path);
   } else {
