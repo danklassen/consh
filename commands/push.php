@@ -15,9 +15,11 @@ class Push extends Command
 
     public function run($options = array())
     {
+        Hook::fire('before_push');
         $push = new GitPush();
         $push->run($options);
         $deploy = new Deploy();
         $deploy->run($options);
+        Hook::fire('after_push');
     }
 }

@@ -18,9 +18,11 @@ class Pull extends Command
 
     public function run($options = array())
     {
+        Hook::fire('before_pull');
         $db = new DbPull();
         $db->run($options);
         $files = new FilesPull();
         $files->run($options);
+        Hook::fire('after_pull');
     }
 }
