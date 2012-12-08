@@ -33,10 +33,12 @@ class FilesPull extends Command
     {
         debug("Pulling remote files");
         $to_dir = C5_DIR . "/" . "files/";
+        Hook::fire('before_db_pull');
         $output = shell_exec('rsync -az --delete '.REMOTE_USER.'@'.REMOTE_HOST.':~/public_html/files/ '. $to_dir);
         shell_exec('chmod 777 files/ files/cache');
         debug($output);
         debug("Done");
+        Hook::fire('after_files_pull');
         return true;
     }
 }
