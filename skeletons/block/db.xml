@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+  <table name="{{TableName}}">
+    <field name="bID" type="I">
+      <key />
+      <unsigned />
+    </field>
+    <field name="created_at" type="T">
+      <deftimestamp />
+     </field>
+    <field name="title" type="C" size="255"></field>
+    <field name="some_integer" type="I"><unsigned /></field>
+    <field name="some_content" type="X2"><unsigned /></field>
+  </table>
+</schema>
