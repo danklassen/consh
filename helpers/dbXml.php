@@ -89,6 +89,9 @@ class columnInfo {
 
       case 'int':
       case 'i':
+      case 'file':
+      case 'page':
+      case 'image':
         $this->type = "I";
         break;
 
