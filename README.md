@@ -38,6 +38,7 @@ Version             Displays the consh version
 Files:Pull          Pull remote files locally
 DB:Push             Push local database
 DB:Pull             Pull remote database
+Generate:Block      Generate a block in the /blocks directory with the passed in attributes
 Generate:Table      Generates a db.xml file for the passed in attributes
 Generate:Model      Generates a skeleton model
 Pull                Pull a remote database and files
@@ -71,9 +72,21 @@ class HookPull
     }
 }
 ```
+
 In the consh settings file add something like
+
 
 ```
 Hook::register('after_pull', null, 'HookPull', 'post_pull');
 ```
 
+Generating a Block
+==================
+
+run something like:
+
+```
+consh Generate:Block my_block_name bID:id title:string body:text page_id:page image_id:image file_id:file
+```
+
+to create a block in the folder /blocks/my_block_name. The block will be named 'My Block Name' and have an add / edit interface for the passed in fields
