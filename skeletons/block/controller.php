@@ -33,7 +33,7 @@ class {{ControllerName}} extends BlockController
      */
     public function getBlockTypeName()
     {
-        return t("Block Name");
+        return t("{{BlockName}}");
     }
 
     /**
