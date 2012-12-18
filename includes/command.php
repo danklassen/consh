@@ -130,6 +130,7 @@ class CommandList {
    * @return array an array of all the commands on the system
    */
   public function getCommands() {
+    ksort($this->commands);
     return $this->commands;
   }
 
@@ -140,8 +141,8 @@ class CommandList {
   private function getDirCommands($dir) {
     if ($dh = opendir($dir)) {
       while (($file = readdir($dh)) !== false) {
-        if(is_dir($dir . $file) && $file != '.' && $file != '..') {
-          $this->getDirCommands($dir . $file);
+        if (is_dir($dir . "/" . $file) && $file != '.' && $file != '..') {
+          $this->getDirCommands($dir . "/" . $file);
         } else {
           $this->loadCommand($dir, $file);
         }
@@ -163,7 +164,7 @@ class CommandList {
     $string = str_replace(CONSH_COMMANDS_DIR, '', $path.'/'.$file);
     $className = str_replace(' ', '', ucwords(str_replace('/', ' ', $string)));
     $object = new $className();
-    $this->commands[] = $object;
+    $this->commands[get_class($object)] = $object;
   }
 
 }

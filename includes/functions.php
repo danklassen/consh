@@ -30,7 +30,7 @@ function show_help() {
   $commands = $list->getCommands();
 	output("Current Commands:");
 	foreach($commands as $command) {
-    output(str_pad($command->name, 20) . $command->description);
+    output(str_pad($command->name, 28) . $command->description);
   }
 }
 
