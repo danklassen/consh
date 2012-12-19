@@ -48,7 +48,7 @@ class {{ControllerName}} extends BlockController
         $e = Loader::helper('validation/error');
         $val = Loader::helper('validation/form');
         $val->setData($args);
-        $val->addRequired('field-name', "Error message");
+        //$val->addRequired('field-name', "Error message");
         $val->test();
         $e = $val->getError();
         return $e;

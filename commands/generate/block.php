@@ -2,6 +2,19 @@
 /**
  * Generates a block
  *
+ * run the command consh Generate:Block block_name bID:id title:string body:text page_id:page
+ * to generate a custom block.
+ *
+ * The first parameter is the block's handle. This is used to determine the block's folder, name, and database table.
+ * The rest of the parameters are used to create the db.xml and the form for add/edit operations. These are passed in the field_name:field_type format
+ * Current valid field_types are:
+ *  * id -> auto increment. The field name for this should be bID to keep concrete5 happy
+ *  * string -> generic text field
+ *  * text -> text area
+ *  * page -> int db field and a page selector field
+ *  * image -> int db field and image picker field
+ *  * file -> ind db field and file picker field
+ *
  * @author    Dan Klassen <dan@triplei.ca>
  * @package Commands
  * @since 0.1.1
@@ -111,6 +124,10 @@ class GenerateBlock extends Command
             case 'textarea':
             case 'text':
                 $template = 'textarea';
+                break;
+            case 'wysiwyg':
+            case 'editor':
+                $template = 'wysiwyg';
                 break;
             case 'string':
             case 'c':

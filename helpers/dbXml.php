@@ -115,6 +115,8 @@ class columnInfo {
 
       case 'text':
       case 'x2':
+      case 'wysiwyg':
+      case 'editor':
         $this->type = 'X2';
         break;
 
