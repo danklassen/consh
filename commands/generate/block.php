@@ -84,8 +84,16 @@ class GenerateBlock extends Command
     {
         include_once CONSH_DIR . '/helpers/dbXml.php';
         $table = new tableInfo($table_name);
+        $has_id_column = false;
         foreach ($fields as $column) {
             $columnXML = new columnInfo($column);
+            if ($columnXML->name == 'bID') {
+                $has_id_column = true;
+            }
+            $table->addColumn($columnXML);
+        }
+        if (!$has_id_column) {
+            $columnXML = new columnInfo('bID:id');
             $table->addColumn($columnXML);
         }
 
