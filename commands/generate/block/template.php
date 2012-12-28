@@ -28,8 +28,12 @@ class GenerateBlockTemplate extends Command
      */
     public function run($options = array())
     {
+        if (count($options) != 2) {
+            output("Please call this command with two parameters. 1: block name 2: template name", 'error');
+            return false;
+        }
         $block_name = $options[0];
-        debug($block_name);
+        $template_name = $options[1];
         $source_file = '';
         if (file_exists(C5_DIR . "/blocks/" . $block_name . "/view.php")) {
             $source_file = C5_DIR . "/blocks/" . $block_name . "/view.php";
@@ -42,12 +46,17 @@ class GenerateBlockTemplate extends Command
             return false;
         }
 
-        $destination_folder = C5_DIR . "/blocks/" . $block_name . "/templates/";
-        $destination_file = $destination_folder . $options[1] . ".php";
+        if ($template_name == 'view') {
+            $destination_folder = C5_DIR . "/blocks/" . $block_name . "/";
+        } else {
+            $destination_folder = C5_DIR . "/blocks/" . $block_name . "/templates/";
+        }
+        $destination_file = $destination_folder . $template_name . ".php";
         if (!is_dir($destination_folder)) {
             shell_exec('mkdir -p '. $destination_folder);
         }
         shell_exec("cp $source_file $destination_file");
+        output("created file: $destination_file", 'success');
     }
 
 }
