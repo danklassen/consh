@@ -25,20 +25,33 @@ class FilesPull extends Command
     /**
      * does the magic
      *
+     * if the constant FILES_PULL_RSYNC_COMMAND is defined, then that command will be run instead of the default
+     * be default the command is rysnc -avz --delete user@host:doc_root/files local_instal/files/
+     *
+     * hooks from this method are:
+     * before_files_pull
+     * -- remote files are pulled down --
+     * after_files_pull
+     *
      * @param array $options not used
      *
      * @return boolean
      */
     public function run($options = array())
     {
-        debug("Pulling remote files");
+        output("Pulling remote files");
         $to_dir = C5_DIR . "/" . "files/";
-        Hook::fire('before_db_pull');
-        $output = shell_exec('rsync -az --delete '.REMOTE_USER.'@'.REMOTE_HOST.':~/public_html/files/ '. $to_dir);
+        Hook::fire('before_files_pull');
+        if (!defined('FILES_PULL_RSYNC_COMMAND')) {
+            $command = 'rsync -az --delete '. REMOTE_USER . '@' . REMOTE_HOST . ':' . REMOTE_DOC_ROOT . "files/ " . $to_dir;
+        } else {
+            $command = FILES_PULL_RSYNC_COMMAND;
+        }
+
+        $output = shell_exec($command);
         shell_exec('chmod 777 files/ files/cache');
-        debug($output);
-        debug("Done");
         Hook::fire('after_files_pull');
+        output("Done", 'success');
         return true;
     }
 }
