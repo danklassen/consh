@@ -34,16 +34,17 @@ Tasks
 
 The current list of tasks avilable are:
 ```
-Version             Displays the consh version
-Files:Pull          Pull remote files locally
-DB:Push             Push local database
-DB:Pull             Pull remote database
-Generate:Block      Generate a block in the /blocks directory with the passed in attributes
-Generate:Table      Generates a db.xml file for the passed in attributes
-Generate:Model      Generates a skeleton model
-Pull                Pull a remote database and files
-Config              Create a configuration file
-Deploy              Perform a git pull on the remote server
+Version                 Displays the consh version
+Files:Pull              Pull remote files locally
+DB:Push                 Push local database
+DB:Pull                 Pull remote database
+Generate:Block          Generate a block in the /blocks directory with the passed in attributes
+Generate:Block:Template Copy the default block template to the passed in template name
+Generate:Table          Generates a db.xml file for the passed in attributes
+Generate:Model          Generates a skeleton model
+Pull                    Pull a remote database and files
+Config                  Create a configuration file
+Deploy                  Perform a git pull on the remote server
 ```
 
 Hooks
