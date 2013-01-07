@@ -4,6 +4,7 @@ config/site.php
 files/cache/*
 build/
 cache/
+phpdocs/
 documentation/
 .buildpath
 .project
