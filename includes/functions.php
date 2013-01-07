@@ -79,13 +79,16 @@ function convertClassNameToPath($className) {
  */
 function __autoload($className) {
   if (substr($className, 0, 4) == 'Hook') {
-    $path = C5_DIR . "/consh/".convertClassNameToPath($className) . ".php";
+    $local_path = C5_DIR . "/consh/".convertClassNameToPath($className) . ".php";
   } else {
 	  $path = CONSH_COMMANDS_DIR . convertClassNameToPath($className).".php";
+    $local_path = CONSH_COMMANDS_LOCAL_DIR . convertClassNameToPath($className).".php";
   }
-  if (file_exists($path)) {
+  if (file_exists($local_path)) {
+   require($local_path);
+  } else if (file_exists($path)) {
 	 require($path);
-  } else {
+  }else {
     output('Command not found', 'error');
     debug("{$path} should define {$className}");
     die();

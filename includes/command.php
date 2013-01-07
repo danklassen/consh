@@ -115,10 +115,21 @@ class CommandList {
     $this->commands = array();
     if ($dh = opendir(CONSH_COMMANDS_DIR)) {
       while (($file = readdir($dh)) !== false) {
-        if(filetype(CONSH_COMMANDS_DIR . $file) == 'dir' && $file != '.' && $file != '..') {
+        if(filetype(CONSH_COMMANDS_DIR . $file) == 'dir' && substr($file, 0, 1) != '.' && $file != '..') {
           $this->getDirCommands(CONSH_COMMANDS_DIR . $file);
         } else {
           $this->loadCommand(CONSH_COMMANDS_DIR, $file);
+        }
+      }
+      closedir($dh);
+    }
+
+    if ($dh = opendir(CONSH_COMMANDS_LOCAL_DIR)) {
+      while (($file = readdir($dh)) !== false) {
+        if(filetype(CONSH_COMMANDS_LOCAL_DIR . $file) == 'dir' && substr($file, 0, 1) != '.' && $file != '..') {
+          $this->getDirCommands(CONSH_COMMANDS_LOCAL_DIR . $file);
+        } else {
+          $this->loadCommand(CONSH_COMMANDS_LOCAL_DIR, $file);
         }
       }
       closedir($dh);
@@ -141,7 +152,7 @@ class CommandList {
   private function getDirCommands($dir) {
     if ($dh = opendir($dir)) {
       while (($file = readdir($dh)) !== false) {
-        if (is_dir($dir . "/" . $file) && $file != '.' && $file != '..') {
+        if (is_dir($dir . "/" . $file) && substr($file, 0, 1) != '.' && $file != '..') {
           $this->getDirCommands($dir . "/" . $file);
         } else {
           $this->loadCommand($dir, $file);
@@ -157,11 +168,11 @@ class CommandList {
    * @return null the command is added to the list of commands
    */
   private function loadCommand($path, $file) {
-    if($file == '.' || $file == "..") {
+    if(substr($file, 0, 1) == '.' || $file == "..") {
       return;
     }
     $file = str_replace(".php", '', $file);
-    $string = str_replace(CONSH_COMMANDS_DIR, '', $path.'/'.$file);
+    $string = str_replace(array(CONSH_COMMANDS_DIR, CONSH_COMMANDS_LOCAL_DIR), '', $path.'/'.$file);
     $className = str_replace(' ', '', ucwords(str_replace('/', ' ', $string)));
     $object = new $className();
     $this->commands[get_class($object)] = $object;
