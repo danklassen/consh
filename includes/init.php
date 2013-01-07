@@ -20,14 +20,37 @@ define('CONSH_DIR', __DIR__."/..");
  * @package  Base
  * @since  0.1
  */
-define('CONSH_CONFIG', C5_DIR."/consh/settings.php");
+define('CONSH_CONFIG', C5_DIR . "/consh/settings.php");
 
 /**
  * the folder where the commands start
  * @package  Base
  * @since  0.1
  */
-define('CONSH_COMMANDS_DIR', CONSH_DIR."/commands/");
+define('CONSH_COMMANDS_DIR', CONSH_DIR . "/commands/");
+
+/**
+ * local commands folder
+ * @package  Base
+ * @since  0.2
+ */
+define('CONSH_COMMANDS_LOCAL_DIR', CONSH_DIR . "/commands-local/");
+
+/**
+ * the folder which houses the skeletons
+ *
+ * @package  @base
+ * @since  0.2
+ */
+define('CONSH_SKELETON_DIR', CONSH_DIR . "/skeletons/");
+
+/**
+ * the folder which houses the skeletons local to this installation
+ *
+ * @package  @base
+ * @since  0.2
+ */
+define('CONSH_SKELETON_LOCAL_DIR', CONSH_DIR . "/skeletons-local/");
 
 /**
  * do we want debugging output?
@@ -55,6 +78,7 @@ require 'functions.php';
 require 'cli_colors.php';
 require 'command.php';
 require CONSH_DIR.'/models/hook.php';
+require CONSH_DIR."/models/theme_skeleton.php";
 checkConfig($argv);
 
 $args = array();
