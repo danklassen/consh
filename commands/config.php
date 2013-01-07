@@ -69,8 +69,7 @@ define('DEPLOY_BRANCH', 'master');
 define('DEPLOY_REMOTE', 'origin');
 define('DEPLOY_STRATEGY', 'git_pull');                    // currently only git_pull. future plans for git pull & symlink like capistrano
 
-// Hook Example:
-//Hook::register('show_version', 'test', function() { print "hello!\n";});
+
 EOF;
             file_put_contents(CONSH_CONFIG, $data);
 
