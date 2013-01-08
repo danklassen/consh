@@ -35,10 +35,13 @@ class GenerateTheme extends Command
             ThemeSkeleton::showThemeOptions();
             return false;
         }
-        $name = array_shift($options);
+        $handle = array_shift($options);
+        $output = array_shift($options);
+        $theme = ThemeSkeleton::getThemeByHandle($handle);
+        if ($theme) {
+            $theme->install($output);
+        }
         return true;
     }
-
-    
 
 }
