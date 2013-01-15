@@ -13,7 +13,7 @@ define('C5_CONCRETE_DIR', C5_DIR."/concrete");
  * @package  Base
  * @since  0.1
  */
-define('CONSH_DIR', __DIR__."/..");
+define('CONSH_DIR', dirname(__FILE__)."/..");
 
 /**
  * where the config settings reside
