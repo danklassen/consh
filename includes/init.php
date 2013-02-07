@@ -53,6 +53,16 @@ define('CONSH_SKELETON_DIR', CONSH_DIR . "/skeletons/");
 define('CONSH_SKELETON_LOCAL_DIR', CONSH_DIR . "/skeletons-local/");
 
 /**
+ * an rsync exclude file
+ * the files listed here will not be pulled from host
+ * recommendations: http://www.concrete5.org/documentation/installation/moving_a_site/
+ *
+ * @package  @base
+ * @since  0.2
+ */
+define('CONSH_RSYNC_EXCLUDE_FILE', CONSH_DIR . "/includes/rsync_exclude.txt");
+
+/**
  * do we want debugging output?
  * @package  Base
  * @since  0.1
