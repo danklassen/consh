@@ -48,10 +48,10 @@ class FilesPull extends Command
         // Look for an rsync exclude file
         // See here for recommended excludes: http://www.concrete5.org/documentation/installation/moving_a_site/
         if (! file_exists(CONSH_RSYNC_EXCLUDE_FILE)) {
-			output("Rsync exclude file not found at ".CONSH_RSYNC_EXCLUDE_FILE."\n","error");
-	   	} else {
-        	$rsync_options.= " --exclude-from '".CONSH_RSYNC_EXCLUDE_FILE."' ";
-        	output("These files will be ignored:\n".file_get_contents(CONSH_RSYNC_EXCLUDE_FILE));
+            output("Rsync exclude file not found at ".CONSH_RSYNC_EXCLUDE_FILE."\n","error");
+        } else {
+            $rsync_options.= " --exclude-from '".CONSH_RSYNC_EXCLUDE_FILE."' ";
+            output("These files will be ignored:\n".file_get_contents(CONSH_RSYNC_EXCLUDE_FILE));
         }
         if (!defined('FILES_PULL_RSYNC_COMMAND')) {
             $command = 'rsync -az '.$rsync_options.' --delete '. REMOTE_USER . '@' . REMOTE_HOST . ':' . REMOTE_DOC_ROOT . "files/ " . $to_dir;
