@@ -14,7 +14,7 @@ function getInput($msg, $default = ''){
   fwrite(STDOUT, "$msg: ");
   $varin = trim(fgets(STDIN));
   if (empty($varin)) {
-  	$varin = $default;
+    $varin = $default;
   }
   return $varin;
 }
@@ -26,10 +26,10 @@ function getInput($msg, $default = ''){
  * @return void
  */
 function show_help() {
-	$list = new CommandList();
+  $list = new CommandList();
   $commands = $list->getCommands();
-	output("Current Commands:");
-	foreach($commands as $command) {
+  output("Current Commands:");
+  foreach ($commands as $command) {
     output(str_pad($command->name, 28) . $command->description);
   }
 }
@@ -42,8 +42,8 @@ function show_help() {
  * @return Object the instantiated object for the command such as DbPull
  */
 function convertCommandToObject($cmd) {
-	$className = str_replace(' ', '', ucwords(str_replace(':', ' ', $cmd)));
-	return new $className();
+  $className = str_replace(' ', '', ucwords(str_replace(':', ' ', $cmd)));
+  return new $className();
 }
 
 function camelize($str = null) {
@@ -60,14 +60,14 @@ function camelize($str = null) {
  * @return string path of the file relative to the commands directory
  */
 function convertClassNameToPath($className) {
-	preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $className, $matches);
+  preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $className, $matches);
   $ret = $matches[0];
   foreach ($ret as &$match) {
-    	if ($match == strtoupper($match)) {
-		$match = strtolower($match); 
-	} else {
-		$match{0} = strtolower($match{0}); 
-	}
+    if ($match == strtoupper($match)) {
+      $match = strtolower($match);
+    } else {
+      $match{0} = strtolower($match{0});
+    }
   }
   return implode('/', $ret);
 }
@@ -85,13 +85,13 @@ function __autoload($className) {
   if (substr($className, 0, 4) == 'Hook') {
     $local_path = C5_DIR . "/consh/".convertClassNameToPath($className) . ".php";
   } else {
-	  $path = CONSH_COMMANDS_DIR . convertClassNameToPath($className).".php";
+    $path = CONSH_COMMANDS_DIR . convertClassNameToPath($className).".php";
     $local_path = CONSH_COMMANDS_LOCAL_DIR . convertClassNameToPath($className).".php";
   }
   if (file_exists($local_path)) {
-   require($local_path);
+   require $local_path;
   } else if (file_exists($path)) {
-	 require($path);
+   require $path;
   }else {
     output('Command not found', 'error');
     debug("{$path} should define {$className}");
@@ -107,9 +107,9 @@ function __autoload($className) {
  * @return void
  */
 function debug($msg) {
-	if(DEBUG) {
-		output($msg, 'debug');
-	}
+  if (DEBUG) {
+    output($msg, 'debug');
+  }
 }
 
 /**
@@ -121,17 +121,17 @@ function debug($msg) {
  * @return void
  */
 function output($msg, $type = '') {
-	if($type != '') {
+  if ($type != '') {
     $colorCli = new CliColors();
-    if(strtolower($type) == 'error') {
+    if (strtolower($type) == 'error') {
       $msg = $colorCli->getColoredString($msg, 'red');
     } else if (strtolower($type) == 'warning') {
       $msg = $colorCli->getColoredString($msg, 'yellow');
     } else if (strtolower($type) == 'success') {
       $msg = $colorCli->getColoredString($msg, 'green');
     }
-	}
-	print $msg."\n";
+  }
+  print $msg."\n";
 }
 
 /**
@@ -144,12 +144,12 @@ function output($msg, $type = '') {
  * @return void
  */
 function checkConfig($argv = array()) {
-	if(file_exists(CONSH_CONFIG)) {
-		require(CONSH_CONFIG);
-	} else if ((count($argv) < 2) || $argv[1] != 'config') {
-		output("Please run 'consh config' to configure consh", 'error');
-		exit;
-	}
+  if (file_exists(CONSH_CONFIG)) {
+    require CONSH_CONFIG;
+  } else if ((count($argv) < 2) || ($argv[1] != 'config' && $argv[1] != 'clonesite')) {
+    output("Please run 'consh config' to configure consh", 'error');
+    exit;
+  }
 }
 
 /**
@@ -167,27 +167,31 @@ function showStatus($done, $total, $size=30) {
   static $start_time;
 
   // if we go over our bound, just ignore it
-  if($done > $total) return;
+  if ($done > $total) {
+    return;
+  }
 
-  if(empty($start_time)) $start_time=time();
+  if (empty($start_time)) {
+    $start_time=time();
+  }
   $now = time();
 
-  $perc=(double)($done/$total);
+  $perc = (double)($done/$total);
 
-  $bar=floor($perc*$size);
+  $bar = floor($perc*$size);
 
-  $status_bar="\r[";
-  $status_bar.=str_repeat("=", $bar);
-  if($bar<$size){
-    $status_bar.=">";
-    $status_bar.=str_repeat(" ", $size-$bar);
+  $status_bar = "\r[";
+  $status_bar .= str_repeat("=", $bar);
+  if ($bar<$size) {
+    $status_bar .= ">";
+    $status_bar .= str_repeat(" ", $size-$bar);
   } else {
      $status_bar.="=";
   }
 
-  $disp=number_format($perc*100, 0);
+  $disp = number_format($perc*100, 0);
 
-  $status_bar.="] $disp%  $done/$total";
+  $status_bar .= "] $disp%  $done/$total";
 
   $rate = ($now-$start_time)/$done;
   $left = $total - $done;
@@ -195,14 +199,14 @@ function showStatus($done, $total, $size=30) {
 
   $elapsed = $now - $start_time;
 
-  $status_bar.= " remaining: ".number_format($eta)." sec.  elapsed: ".number_format($elapsed)." sec.";
+  $status_bar .= " remaining: ".number_format($eta)." sec.  elapsed: ".number_format($elapsed)." sec.";
 
   echo "$status_bar  ";
 
   flush();
 
   // when done, send a newline
-  if($done == $total) {
+  if ($done == $total) {
       echo "\n";
   }
 

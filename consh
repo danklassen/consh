@@ -6,9 +6,6 @@ require('includes/init.php');
 
 $command = convertCommandToObject($userCommand);
 if (!empty($pkg)) {
-  $command->setPackage($pkg);
+    $command->setPackage($pkg);
 }
 $command->run($args);
-
-
-
