@@ -43,7 +43,7 @@ class ThemeSkeleton
             $class_name = camelize('theme_' . $this->handle . "_hooks");
             $theme_hooks = new $class_name();
             if (method_exists($theme_hooks, 'post_install')) {
-                $theme_hooks->post_install($this);
+                $theme_hooks->post_install($this, $target_folder);
             }
             shell_exec("rm {$target_folder}/consh_hooks.php");
         }
