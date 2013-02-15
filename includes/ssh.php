@@ -97,4 +97,14 @@ class SSH {
         $con = $this->getConnection();
         $this->runCommand('rm '.$remote_file);
     }
+
+    public function sendFile($local_path, $remote_path)
+    {
+        $con = $this->getConnection();
+        if (ssh2_scp_send($con, $local_path, $remote_path)) {
+            return true;
+        } else {
+            die('could not send file to remote server');
+        }
+    }
 }
