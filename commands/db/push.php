@@ -15,28 +15,30 @@ class DbPush extends Command
 
     public function run($options = array())
     {
+        output('WARNING: this will wipe out your remote database. Make sure you have any necessary backups', 'warning');
         $confirm = getInput("Are you sure you want to push your local database to the remote server? (y/n)");
         if ($confirm !='y') {
-            output("Bailing out");
+            output("User Canceled");
             return false;
         }
-        die("not yet implemented");
         $ssh = new SSH();
-        debug("Pulling remote database");
-        $file_name = 'db_' . time() . '.sql';
-        $remote_file = REMOTE_HOME_PATH.$file_name;
-        debug("remote file: {$remote_file}");
-        $local_file = C5_DIR."{$file_name}";
-        $ssh->runCommand('mysqldump -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.REMOTE_DB_PASS . ' ' . REMOTE_DB_NAME. " > " . $remote_file);
-        debug('Pulling file locally');
-        $ssh->scp($remote_file, $local_file);
-        $ssh->rmRemoteFile($remote_file);
-        debug('Done');
-        $sql = file_get_contents($local_file);
-        $db = new LocalDB();
-        debug("Importing to local database");
-        $res = $db->execute($sql);
-        debug("Done");
+        output("Exporting local database");
+        $file_name = 'db_'.time().'.sql';
+        $file_path = C5_DIR . '/' . $file_name;
+        $local_db = new LocalDB();
+        $local_db->exportDB($file_name);
+        debug('copying file to remote server');
+        if (!$ssh->sendFile($file_name, REMOTE_HOME_PATH . $file_name)) {
+            output("file could not be sent. stopping import", 'error');
+            return false;
+        }
+        debug('sent file to ' . REMOTE_HOME_PATH . $file_name);
+        $command = sprintf("mysql -h %s -u %s -p%s %s < %s", REMOTE_DB_HOST, REMOTE_DB_USER, REMOTE_DB_PASS, REMOTE_DB_NAME, REMOTE_HOME_PATH . $file_name);
+        debug("importing to remote database");
+        $ssh->runCommand($command);
+        $ssh->rmRemoteFile(REMOTE_HOME_PATH . $file_name);
+        unlink($file_path);
+        output('done', 'success');
         return true;
     }
 
