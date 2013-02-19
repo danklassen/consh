@@ -63,5 +63,7 @@ class {{ControllerName}} extends BlockController
     {
         return "";
     }
+{{ExtraControllerMethods}}
+{{WysiwygContent}}
 
 }
