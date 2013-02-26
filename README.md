@@ -92,3 +92,85 @@ consh Generate:Block my_block_name bID:id title:string body:text page_id:page im
 ```
 
 to create a block in the folder /blocks/my_block_name. The block will be named 'My Block Name' and have an add / edit interface for the passed in fields
+
+
+Configuration Options
+=====================
+
+There are a number of required and optional configuration values which can be used to customize how consh interacts with the remote site.
+
+## SSH / Host connection Information
+
+### REMOTE_HOST
+
+The remote host that the site runs on
+
+### REMOTE_USER
+
+The username on the remote system to ssh in as
+
+### REMOTE_HOME_PATH
+
+The full path to the home folder of the website
+
+### REMOTE_DOC_ROOT
+
+Where the document root is on the remote server
+
+### REMOTE_PASS
+
+Currently this is not used as only ssh-key based authentication is used
+
+### REMOTE_USE_KEY
+
+Currently not used and is always true
+
+### REMOTE_PUB_KEY_PATH
+
+This should point to your ~/.ssh/id_rsa.pub file path
+
+### REMOTE_PRIV_KEY_PATH
+
+This should point to your ~/.ssh/id_rsa file
+
+### REMOTE_PORT
+
+If you are running ssh on a port besides 22 you will want to update this
+
+## Remote Database Connection Details
+
+### REMOTE_DB_HOST
+
+The host the remote website uses to connect to the database (usually localhost)
+
+### REMOTE_DB_USER
+
+The username the remote website uses to connect to the database
+
+### REMOTE_DB_PASS
+
+The password the remote website uses to connect to the database
+
+### REMOTE_DB_NAME
+
+The database name the remote website uses
+
+## Git / Deployment information
+
+### DEPLOY_BRANCH
+
+Which branch to use when deploying (use master if you're not sure)
+
+### DEPLOY_REMOTE
+
+Which remote to use when deploying (use origin if you're not sure)
+
+### DEPLOY_STRATEGY
+
+Currently only ```git_pull``` is supported. Future plans for a strategy more similar to capistrano's multiple versions, etc are in place.
+
+## Others
+
+### LOCAL_BACKUP_DIR
+
+Where to store the contents of the ```consh backup:db``` command
