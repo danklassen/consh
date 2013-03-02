@@ -20,7 +20,8 @@ class BackupDb extends Command
     {
         $this->name = "Backup:DB";
         $this->description = "Backup the remote database locally";
-        $this->help = "Pull down a timestamped copy of the remote database";
+        $this->help = "Pull down a timestamped copy of the remote database. The file will be saved in your LOCAL_BACKUP_DIR (" . C5_DIR . "/remote_backups/ by default)";
+        $this->parameters = array('name' => 'Name of the backup. This is appended to the filename');
     }
 
     /**
