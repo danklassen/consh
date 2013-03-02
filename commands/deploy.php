@@ -25,7 +25,9 @@ class Deploy extends Command
         $deploy_class = camelize(DEPLOY_STRATEGY. '_deploy_strategy');
         $deploy = new $deploy_class();
         Hook::fire('before_deploy');
+        Hook::fire('before_deploy_'.$deploy_class);
         $deploy->deploy();
+        Hook::fire('before_deploy_'.$deploy_class);
         Hook::fire('after_deploy');
     }
 }
