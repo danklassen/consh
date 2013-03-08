@@ -30,13 +30,6 @@ class RestoreDb extends Command
             return false;
         }
 
-        output('WARNING: this will wipe out your local database. Make sure you have any necessary backups', 'warning');
-        $confirm = getInput("Are you sure you want to restore your local database to the backup labelled {$version}? (y/n)");
-        if ($confirm !='y') {
-            output("User Canceled");
-            return false;
-        }
-
         output("Importing {$version}");
         $sql = file($file_name);
         $db = new LocalDB();
