@@ -211,3 +211,20 @@ function showStatus($done, $total, $size=30) {
   }
 
 }
+
+/**
+ * get the path to the local database backup directory
+ *
+ * @return string
+ */
+function getLocalDBBackupDir()
+{
+    if (!defined('LOCAL_BACKUP_DIR')) {
+        define('LOCAL_BACKUP_DIR', C5_DIR . "/remote_backups/");
+    }
+    if (!is_dir(LOCAL_BACKUP_DIR)) {
+        mkdir(LOCAL_BACKUP_DIR);
+    }
+
+    return LOCAL_BACKUP_DIR;
+}
