@@ -3,14 +3,14 @@
  * @author  Dan Klassen <dan@triplei.ca>
  * @package Commands
  */
-class RestoreDb extends Command
+class RestoreRemoteDb extends Command
 {
 
     public function __construct()
     {
-        $this->name = "Restore:DB";
-        $this->description = "Restore a db backup to the local server";
-        $this->help = "Restore a previous backup to the local installation";
+        $this->name = "Restore:Remote:DB";
+        $this->description = "Restore a db backup to the remote server";
+        $this->help = "Restore a db backup to the remote server. This is a potentially destructive command";
         $this->parameters = array('name' => 'The name which identifies the database backup to restore from');
     }
 
@@ -29,27 +29,23 @@ class RestoreDb extends Command
             output("File: {$version} could not be found", 'error');
             return false;
         }
-
-        output("Importing {$version}");
-        $sql = file($file_name);
-        $db = new LocalDB();
-        $templine = '';
-
-        $size = count($sql);
-        $current = 0;
-        foreach ($sql as $line) {
-            $current++;
-            // Skip it if it's a comment
-            if (substr($line, 0, 2) == '--' || $line == '') {
-                continue;
-            }
-            $templine .= $line;
-            if (substr(trim($line), -1, 1) == ';') {
-                $db->execute($templine);
-                showStatus($current, $size);
-                $templine = '';
-            }
+        output('WARNING: this will wipe out your remote database. Make sure you have any necessary backups', 'warning');
+        $confirm = getInput("Are you sure you want to push {$version} to the remote server? (y/n)");
+        if ($confirm !='y') {
+            output("User Canceled");
+            return false;
         }
+        $ssh = new SSH();
+        debug('copying file to remote server');
+        if (!$ssh->sendFile($file_name, REMOTE_HOME_PATH . $version)) {
+            output("file could not be sent. stopping import", 'error');
+            return false;
+        }
+        debug('sent file to ' . REMOTE_HOME_PATH . $version);
+        $command = sprintf("mysql -h %s -u %s -p%s %s < %s", REMOTE_DB_HOST, REMOTE_DB_USER, REMOTE_DB_PASS, REMOTE_DB_NAME, REMOTE_HOME_PATH . $version);
+        debug("importing to remote database");
+        $ssh->runCommand($command);
+        $ssh->rmRemoteFile(REMOTE_HOME_PATH . $version);
         output('done', 'success');
         return true;
     }
