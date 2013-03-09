@@ -40,7 +40,6 @@ The current list of tasks avilable are:
 ```
 Current Commands:
 Backup:DB                   Backup the remote database locally
-Clonesite                   Clone a new site to a local dev
 Config                      Create a configuration file
 DB:Connect                  Connect to the local db
 DB:Pull                     Pull remote database
