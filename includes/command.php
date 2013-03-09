@@ -7,175 +7,198 @@
  *
  * @author Dan Klassen <dan@triplei.ca>
  * @package Base
- * @since  0.1
+ * @since    0.1
  */
-class Command {
+class Command
+{
 
-  /**
-   * name of the Command
-   * @var string
-   */
-  private $name;
-  /**
-   * description of the command
-   * @var string
-   */
-  private $description;
-  /**
-   * a help message to be displayed
-   *
-   * at the moment this is not used at all
-   * @var string
-   */
-  private $help;
+    /**
+     * name of the Command
+     * @var string
+     */
+    private $name;
+    /**
+     * description of the command
+     * @var string
+     */
+    private $description;
+    /**
+     * a help message to be displayed
+     *
+     * at the moment this is not used at all
+     * @var string
+     */
+    private $help;
 
-  /**
-   * name of the package this command is running against
-   *
-   * this is derived from the command line option --pkg=(*.)
-   * @var string
-   */
-  private $package;
+    /**
+     * name of the package this command is running against
+     *
+     * this is derived from the command line option --pkg=(*.)
+     * @var string
+     */
+    private $package;
 
-  public function __construct() {
-    $this->pkg = null;
-  }
+    public function __construct()
+    {
+        $this->pkg = null;
+    }
 
-  /**
-   * the main magic should happen here
-   * @param  array  $options options passed in from the command line
-   */
-  public function run($options = array()){
-    //over ride this as it will be called
-  }
+    /**
+     * the main magic should happen here
+     *
+     * @param array $options options passed in from the command line
+     */
+    public function run($options = array())
+    {
+        //over ride this as it will be called
+    }
 
-  /**
-   * gets the name of the command
-   * @return string the name of the command
-   */
-  public function getName() {
-    return $this->name;
-  }
+    /**
+     * gets the name of the command
+     *
+     * @return string the name of the command
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-  /**
-   * gets the description of the command
-   * @return string the description of the command
-   */
-  public function getDescription() {
-    return $this->description;
-  }
+    /**
+     * gets the description of the command
+     *
+     * @return string the description of the command
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-  /**
-   * gets the help for the command
-   * @return string the help for the command
-   */
-  public function getHelp() {
-    return $this->help;
-  }
+    /**
+     * gets the help for the command
+     *
+     * @return string the help for the command
+     */
+    public function getHelp()
+    {
+        return $this->help;
+    }
 
-  /**
-   * set the package namespace for this command
-   * @param string $pkg
-   */
-  public function setPackage($pkg=null) {
-    $this->pkg = $pkg;
-  }
+    /**
+     * set the package namespace for this command
+     *
+     * @param string $pkg package for this instance
+     */
+    public function setPackage($pkg=null)
+    {
+        $this->pkg = $pkg;
+    }
 
-  /**
-   * get the package for this intance
-   * @return string
-   */
-  public function getPackage() {
-    return $this->pkg;
-  }
+    /**
+     * get the package for this intance
+     *
+     * @return string
+     */
+    public function getPackage()
+    {
+        return $this->pkg;
+    }
 }
 
 /**
  * helper class to list commands
  *
  * useful for outputting a list of all commands on the system
- * @since  0.1
- * @package  Base
+ * @since   0.1
+ * @package Base
  */
-class CommandList {
+class CommandList
+{
 
-  /**
-   * populated with the various commands when instantiated
-   *
-   * @var array
-   */
-  private $commands;
+    /**
+     * populated with the various commands when instantiated
+     *
+     * @var array
+     */
+    private $commands;
 
-  /**
-   * loads a list of commands
-   *
-   * loops through the CONSH_COMMANDS_DIR directory recursively looking for commands to load
-   */
-  public function __construct() {
-    $this->commands = array();
-    if ($dh = opendir(CONSH_COMMANDS_DIR)) {
-      while (($file = readdir($dh)) !== false) {
-        if(filetype(CONSH_COMMANDS_DIR . $file) == 'dir' && substr($file, 0, 1) != '.' && $file != '..') {
-          $this->getDirCommands(CONSH_COMMANDS_DIR . $file);
-        } else {
-          $this->loadCommand(CONSH_COMMANDS_DIR, $file);
+    /**
+     * loads a list of commands
+     *
+     * loops through the CONSH_COMMANDS_DIR directory recursively looking for commands to load
+     */
+    public function __construct()
+    {
+        $this->commands = array();
+        if ($dh = opendir(CONSH_COMMANDS_DIR)) {
+            while (($file = readdir($dh)) !== false) {
+                if (filetype(CONSH_COMMANDS_DIR . $file) == 'dir' && substr($file, 0, 1) != '.' && $file != '..') {
+                    $this->getDirCommands(CONSH_COMMANDS_DIR . $file);
+                } else {
+                    $this->loadCommand(CONSH_COMMANDS_DIR, $file);
+                }
+            }
+            closedir($dh);
         }
-      }
-      closedir($dh);
-    }
 
-    if ($dh = opendir(CONSH_COMMANDS_LOCAL_DIR)) {
-      while (($file = readdir($dh)) !== false) {
-        if(filetype(CONSH_COMMANDS_LOCAL_DIR . $file) == 'dir' && substr($file, 0, 1) != '.' && $file != '..') {
-          $this->getDirCommands(CONSH_COMMANDS_LOCAL_DIR . $file);
-        } else {
-          $this->loadCommand(CONSH_COMMANDS_LOCAL_DIR, $file);
+        if ($dh = opendir(CONSH_COMMANDS_LOCAL_DIR)) {
+            while (($file = readdir($dh)) !== false) {
+                if (filetype(CONSH_COMMANDS_LOCAL_DIR . $file) == 'dir' && substr($file, 0, 1) != '.' && $file != '..') {
+                    $this->getDirCommands(CONSH_COMMANDS_LOCAL_DIR . $file);
+                } else {
+                    $this->loadCommand(CONSH_COMMANDS_LOCAL_DIR, $file);
+                }
+            }
+            closedir($dh);
         }
-      }
-      closedir($dh);
     }
-  }
 
-  /**
-   * get an array of all the commands
-   * @return array an array of all the commands on the system
-   */
-  public function getCommands() {
-    ksort($this->commands);
-    return $this->commands;
-  }
+    /**
+     * get an array of all the commands
+     *
+     * @return array an array of all the commands on the system
+     */
+    public function getCommands()
+    {
+        ksort($this->commands);
+        return $this->commands;
+    }
 
-  /**
-   * get commands in a directory
-   * @param string $dir directory to look in
-   */
-  private function getDirCommands($dir) {
-    if ($dh = opendir($dir)) {
-      while (($file = readdir($dh)) !== false) {
-        if (is_dir($dir . "/" . $file) && substr($file, 0, 1) != '.' && $file != '..') {
-          $this->getDirCommands($dir . "/" . $file);
-        } else {
-          $this->loadCommand($dir, $file);
+    /**
+     * get commands in a directory
+     *
+     * @param string $dir directory to look in
+     */
+    private function getDirCommands($dir)
+    {
+        if ($dh = opendir($dir)) {
+            while (($file = readdir($dh)) !== false) {
+                if (is_dir($dir . "/" . $file) && substr($file, 0, 1) != '.' && $file != '..') {
+                    $this->getDirCommands($dir . "/" . $file);
+                } else {
+                    $this->loadCommand($dir, $file);
+                }
+            }
         }
-      }
     }
-  }
 
-  /**
-   * load a command
-   * @param  string $path path the command is in
-   * @param  string $file name of the file
-   * @return null the command is added to the list of commands
-   */
-  private function loadCommand($path, $file) {
-    if(substr($file, 0, 1) == '.' || $file == "..") {
-      return;
+    /**
+     * load a command
+     *
+     * @param string $path path the command is in
+     * @param string $file name of the file
+     *
+     * @return null the command is added to the list of commands
+     */
+    private function loadCommand($path, $file)
+    {
+        if (substr($file, 0, 1) == '.' || $file == "..") {
+            return;
+        }
+        $file = str_replace(".php", '', $file);
+        $string = str_replace(array(CONSH_COMMANDS_DIR, CONSH_COMMANDS_LOCAL_DIR), '', $path.'/'.$file);
+        $className = str_replace(' ', '', ucwords(str_replace('/', ' ', $string)));
+        $object = new $className();
+        $this->commands[get_class($object)] = $object;
     }
-    $file = str_replace(".php", '', $file);
-    $string = str_replace(array(CONSH_COMMANDS_DIR, CONSH_COMMANDS_LOCAL_DIR), '', $path.'/'.$file);
-    $className = str_replace(' ', '', ucwords(str_replace('/', ' ', $string)));
-    $object = new $className();
-    $this->commands[get_class($object)] = $object;
-  }
 
 }

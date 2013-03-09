@@ -100,7 +100,7 @@ if (count($argv) < 2) {
 }
 $userCommand = $argv[1];
 
-if (!file_exists(C5_DIR.'/config/site.php')) {
+if (!file_exists(C5_DIR.'/config/site.php') && $userCommand != 'clonesite') {
     output("Please make sure the file ".C5_DIR.'/config/site.php exists', 'warning');
     output("This does not look like a concrete5 install", 'error');
     die();
@@ -115,6 +115,6 @@ if (!empty($pkg)) {
     $pkg = str_replace("--pkg=", "", array_shift($pkg));
 }
 
-require C5_DIR.'/config/site.php';
+@include C5_DIR.'/config/site.php';
 require 'local_db.php';
 require 'ssh.php';

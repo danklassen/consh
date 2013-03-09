@@ -1,5 +1,6 @@
 <?
-class Hook {
+class Hook
+{
 
     /**
      * Returns an instance of the systemwide Hook object.
@@ -50,7 +51,8 @@ class Hook {
      * @param string $event
      * @return void
      */
-    public static function fire($event) {
+    public static function fire($event)
+    {
 
         // any additional arguments passed to the fire function will get passed FIRST to the method, with the method's own registered
         // params coming at the end. e.g. if I fire Hook::fire('on_login', $userObject) it will come in with user object first
@@ -96,7 +98,7 @@ class Hook {
                     if (method_exists($ev[1], $ev[2])) {
                         // Note: DO NOT DO RETURN HERE BECAUSE THEN MULTIPLE EVENTS WON'T WORK
                         $response = call_user_func_array(array($ev[1], $ev[2]), $params);
-                        if(!is_null($response)) {
+                        if (!is_null($response)) {
                             $eventReturn = $response;
                         }
                     }
@@ -110,9 +112,10 @@ class Hook {
      * Sorts registered events by priority
      * @return void
      */
-    protected static function sortByPriority() {
+    protected static function sortByPriority()
+    {
         $ce = Hook::getInstance();
-        foreach(array_keys($ce->registeredEvents) as $event) {
+        foreach (array_keys($ce->registeredEvents) as $event) {
             usort($ce->registeredEvents[$event],'Hook::comparePriority');
         }
     }
@@ -124,7 +127,8 @@ class Hook {
      * @param array $b
      * @return number|number|number
      */
-    public static function comparePriority($a,$b) {
+    public static function comparePriority($a, $b)
+    {
         if($a[5] > $b[5]) return 1;
         if($a[5] < $b[5]) return -1;
         return 0;

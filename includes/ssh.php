@@ -28,7 +28,8 @@ class SSH {
     /**
      * connect to the remote server
      */
-    public function connect() {
+    public function connect()
+    {
         if (!$this->connected) {
             debug('connecting');
             $this->connection = ssh2_connect(REMOTE_HOST, REMOTE_PORT);
@@ -45,7 +46,8 @@ class SSH {
      * if we are already connect re-use the connection, otherwise one is established
      * @return mixed the connection to the remote server
      */
-    public function getConnection() {
+    public function getConnection()
+    {
         if (!$this->connected) {
             $this->connect();
         }
@@ -55,7 +57,8 @@ class SSH {
     /**
      * close the connection
      */
-    public function closeConnection() {
+    public function closeConnection()
+    {
         debug('closing');
         $this->getConnection();
         $this->runCommand('exit');
@@ -63,28 +66,30 @@ class SSH {
         $this->connected = false;
     }
 
-    public function runCommand($cmd) {
-      if (!($stream = ssh2_exec($this->getConnection(), $cmd))) {
-        throw new Exception('SSH command failed');
-      }
-      $err_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
-      stream_set_blocking($err_stream, true);
-      $error = stream_get_contents($err_stream);
-      if (!empty($error)) {
-        output($error, 'Error');
-        return false;
-      }
+    public function runCommand($cmd)
+    {
+        if (!($stream = ssh2_exec($this->getConnection(), $cmd))) {
+            throw new Exception('SSH command failed');
+        }
+        $err_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+        stream_set_blocking($err_stream, true);
+        $error = stream_get_contents($err_stream);
+        if (!empty($error)) {
+            output($error, 'Error');
+            return false;
+        }
 
-      stream_set_blocking($stream, true);
-      $data = "";
-      while ($buf = fread($stream, 4096)) {
-        $data .= $buf;
-      }
-      fclose($stream);
-      return $data;
-  }
+        stream_set_blocking($stream, true);
+        $data = "";
+        while ($buf = fread($stream, 4096)) {
+            $data .= $buf;
+        }
+        fclose($stream);
+        return $data;
+    }
 
-    public function scp($remote_path, $local_path) {
+    public function scp($remote_path, $local_path)
+    {
         $con = $this->getConnection();
         if (ssh2_scp_recv($con, $remote_path, $local_path)) {
             return true;
@@ -93,7 +98,8 @@ class SSH {
         }
     }
 
-    public function rmRemoteFile($remote_file) {
+    public function rmRemoteFile($remote_file)
+    {
         $con = $this->getConnection();
         $this->runCommand('rm '.$remote_file);
     }
