@@ -30,7 +30,11 @@ class GenerateBlock extends Command
         parent::__construct();
         $this->name = "Generate:Block";
         $this->description = "Generates a skeleton block";
-        $this->help = "Generate a simple block";
+        $this->help = "Generate a simple block from the passed in parameters";
+        $this->parameters = array(
+            'name' => 'The name of the block to create. Example: my_new_block',
+            'fields' => 'The rest of the paramaters are the fields in the form of field_name:type. Current field types are id, text, textarea, wysiwyg, page, image, file'
+        );
     }
 
     /**
