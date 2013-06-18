@@ -53,6 +53,9 @@ class FilesPull extends Command
             $rsync_options.= " --exclude-from '".CONSH_RSYNC_EXCLUDE_FILE."' ";
             output("These files will be ignored:\n".file_get_contents(CONSH_RSYNC_EXCLUDE_FILE));
         }
+        if (defined('MAX_FILE_PULL_SIZE')) {
+            $rsync_options .= " --max-size=".MAX_FILE_PULL_SIZE;
+        }
         if (!defined('FILES_PULL_RSYNC_COMMAND')) {
             $command = 'rsync -az '.$rsync_options.' --delete '. REMOTE_USER . '@' . REMOTE_HOST . ':' . REMOTE_DOC_ROOT . "files/ " . $to_dir;
         } else {
