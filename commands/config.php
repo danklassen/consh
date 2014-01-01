@@ -72,6 +72,13 @@ define('DEPLOY_STRATEGY', 'git_pull');                    // currently only git_
 define("MAX_FILE_PULL_SIZE", "1.5M");
 
 
+// settings for the package Command
+// base files should cover all the standard concrete files
+// extra files could cover items like a readme.txt, Gruntfile, package.json etc
+define('PACKAGE_BASE_FILES', 'blocks config concrete controllers css elements files helpers jobs js languages libraries mail models packages single_pages themes tools updates .htaccess LICENSE.txt index.php robots.txt sitemap.xml');
+define('PACKAGE_EXTRA_FILES', '');
+
+
 EOF;
             file_put_contents(CONSH_CONFIG, $data);
 
