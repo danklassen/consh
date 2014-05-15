@@ -240,3 +240,23 @@ function getLocalDBBackupDir()
 
     return LOCAL_BACKUP_DIR;
 }
+
+
+/**
+ * copies a source file to the destination and replaces any instances of the templates with their new values
+ *
+ * @param string $src       full path to the source file
+ * @param string $dst       full path to the destination file
+ * @param array  $templates an associative array of template => replacement values. template will be automatically wrapped in {{<template_here>}}
+ *
+ * @return number of bytes written, or false if the write failed
+ */
+function copyFileAndReplaceTemplate($src, $dst, $templates)
+{
+    $str = file_get_contents($src);
+    foreach ($templates as $template => $replacement) {
+        $str = str_replace("{{{$template}}}", $replacement, $str);
+    }
+    $handle = fopen($dst, 'w');
+    return fwrite($handle, $str);
+}
