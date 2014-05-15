@@ -69,7 +69,8 @@ define('DEPLOY_BRANCH', 'master');
 define('DEPLOY_REMOTE', 'origin');
 define('DEPLOY_STRATEGY', 'git_pull');                    // currently only git_pull. future plans for git pull & symlink like capistrano
 
-define("MAX_FILE_PULL_SIZE", "1.5M");
+define('MAX_FILE_PULL_SIZE', "1.5M");
+define('USE_GZIP_COMPRESSION', true);                     // whether or not to use gzip compression for database backups etc
 
 
 // settings for the package Command

@@ -45,8 +45,14 @@ class BackupDb extends Command
         if (count($options)) {
             $file_name = time() . '-' . camelize($options[0]) . '.sql';
         }
-        output("Backing up the remote database");
         $remote_file = REMOTE_HOME_PATH . $file_name;
+        $mysqldump_command = 'mysqldump -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " > " . $remote_file;
+        if (defined('USE_GZIP_COMPRESSION') && USE_GZIP_COMPRESSION) {
+            $file_name.=".gz";
+            $remote_file.=".gz";
+            $mysqldump_command = 'mysqldump -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " | gzip > " . $remote_file;
+        }
+        output("Backing up the remote database");
         if (!defined('LOCAL_BACKUP_DIR')) {
             define('LOCAL_BACKUP_DIR', C5_DIR . "/remote_backups/");
         }
@@ -54,7 +60,7 @@ class BackupDb extends Command
             mkdir(LOCAL_BACKUP_DIR);
         }
         $local_file = LOCAL_BACKUP_DIR."{$file_name}";
-        $ssh->runCommand('mysqldump -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " > " . $remote_file);
+        $ssh->runCommand($mysqldump_command);
         $ssh->scp($remote_file, $local_file);
         $ssh->rmRemoteFile($remote_file);
         output(sprintf('remote database was backed up to %s', $file_name));
