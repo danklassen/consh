@@ -5,7 +5,7 @@
  * This will delete local files which do not exist on the remote host
  * @author  Dan Klassen <dan@triplei.ca>
  * @package Commands
- * @since 0.1
+ * @since 0.2.1
  */
 class FilesPush extends Command
 {

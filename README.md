@@ -46,6 +46,7 @@ DB:Pull                     Pull remote database
 DB:Push                     Push local database
 Deploy                      Deploy the code from origin master to the remote server
 Files:Pull                  Pull remote files locally
+Files:Push                  Push local files to the remote server
 Generate:Block              Generates a skeleton block
 Generate:Block:Override     Copies the controller for a core block
 Generate:Block:Template     Generates a template for an existing block
@@ -60,6 +61,7 @@ Pull                        Pull a remote database and files
 Push                        Push local git repo to remote and then deploy
 Restore:DB                  Restore a db backup to the local server
 Restore:Remote:DB           Restore a db backup to the remote server
+Site:Push                   Push local site to the remote server (files and database)
 Version                     Displays the consh version
 ```
 

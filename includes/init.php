@@ -74,7 +74,7 @@ define('DEBUG', true);
  * @package  Base
  * @since  0.1
  */
-define('CONSH_VERSION', 0.2);
+define('CONSH_VERSION', '0.2.1');
 
 /**
  * allow us to include some concrete5 files
