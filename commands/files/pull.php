@@ -19,14 +19,14 @@ class FilesPull extends Command
     {
         $this->name = "Files:Pull";
         $this->description = "Pull remote files locally";
-        $this->help = "Pull remote site's file locally to your /files dir";
+        $this->help = "Pull remote site's files locally to your /files dir";
     }
 
     /**
      * does the magic
      *
      * if the constant FILES_PULL_RSYNC_COMMAND is defined, then that command will be run instead of the default
-     * be default the command is rysnc -avz --delete user@host:doc_root/files local_instal/files/
+     * be default the command is rysnc -az --delete user@host:doc_root/files local_instal/files/
      *
      * hooks from this method are:
      * before_files_pull
@@ -42,9 +42,9 @@ class FilesPull extends Command
         output("Pulling remote files");
         $to_dir = C5_DIR . "/" . "files/";
         Hook::fire('before_files_pull');
-        
+
         $rsync_options = "";
-        
+
         // Look for an rsync exclude file
         // See here for recommended excludes: http://www.concrete5.org/documentation/installation/moving_a_site/
         if (! file_exists(CONSH_RSYNC_EXCLUDE_FILE)) {
