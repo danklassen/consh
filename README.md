@@ -1,6 +1,8 @@
 consh
 =====
 
+### This script is for concrete5.5 / concrete5.6. If you are looking for a concrete5.7 compatible version, it has been re-written and is available at <https://github.com/triplei/consh>.
+
 At the moment this has only been tested on an ubuntu workstation connecting to an ubuntu server. As far as I know there isn't any reason it shouldn't work on any *nix setup though.
 
 concrete5 shell scripts
