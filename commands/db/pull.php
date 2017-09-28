@@ -46,12 +46,12 @@ class DbPull extends Command
         $file_name = 'db_' . time() . '.sql';
         $remote_file = REMOTE_HOME_PATH . $file_name;
         $local_file = C5_DIR . "{$file_name}";
-        $mysqldump_command = 'mysqldump -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " > " . $remote_file;
+        $mysqldump_command = 'mysqldump --single-transaction -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " > " . $remote_file;
         if (defined('USE_GZIP_COMPRESSION') && USE_GZIP_COMPRESSION) {
             $file_name .= ".gz";
             $local_file .= ".gz";
             $remote_file .= ".gz";
-            $mysqldump_command = 'mysqldump -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " | gzip > " . $remote_file;
+            $mysqldump_command = 'mysqldump --single-transaction -h ' . REMOTE_DB_HOST . ' -u ' . REMOTE_DB_USER . ' -p'.addslashes(REMOTE_DB_PASS) . ' ' . REMOTE_DB_NAME. " | gzip > " . $remote_file;
         }
         $ssh->runCommand($mysqldump_command);
         $ssh->scp($remote_file, $local_file);
